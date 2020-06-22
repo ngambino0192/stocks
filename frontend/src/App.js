@@ -1,17 +1,9 @@
 /** @jsx jsx */
 import { useState, useEffect } from "react";
 import { css, jsx } from "@emotion/core";
-
-const header = css`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 6vh;
-  border: solid black 2px;
-  font-size: 24px;
-  font-family: "Roboto";
-`;
+import PrimaryTicker from "./components/PrimaryTicker";
+import SearchField from "./components/SearchField";
+import Watchlist from "./components/Watchlist";
 
 const graph = css`
   display: flex;
@@ -28,9 +20,10 @@ const news = css`
 `;
 
 function App() {
-  const [primaryData, setPrimaryData] = useState({});
+  const [priceData, setpriceData] = useState({});
   const [primaryTicker, setPrimaryTicker] = useState("AAPL");
-  const [formField, setForm] = useState("");
+  const [watchlist, setWatchlist] = useState([]);
+  const [bottomState, setBottomState] = useState(true);
 
   useEffect(() => {
     const HTTP_OK = 200;
@@ -40,7 +33,7 @@ function App() {
       );
       if (response.status === HTTP_OK) {
         let json = await response.json();
-        setPrimaryData(json);
+        setpriceData(json);
       } else {
         alert(`error: ${response.status}`);
       }
@@ -48,39 +41,25 @@ function App() {
     fetchData();
   }, [primaryTicker]);
 
-  const handleSubmit = function (ev) {
-    ev.preventDefault();
-    setPrimaryTicker(formField);
-  };
-
   return (
-    <div css={{ margin: 0, padding: 0 }}>
-      <div css={header}>
-        {primaryData.c ? (
-          <div>
-            {primaryTicker}: {primaryData.c}
-          </div>
-        ) : (
-          <div>No Results Found</div>
-        )}
-      </div>
+    <div css={{ height: "100vh", overflow: "hidden" }}>
+      <PrimaryTicker
+        priceData={priceData}
+        primaryTicker={primaryTicker}
+        bottomState={bottomState}
+        setBottomState={setBottomState}
+        watchlist={watchlist}
+        setWatchlist={setWatchlist}
+      />
       <div css={graph}></div>
       <div>
-        <form onSubmit={(ev) => handleSubmit(ev)}>
-          <label htmlFor="ticker-select">
-            <input
-              id="ticker-select"
-              name="ticker-select"
-              type="text"
-              value={formField}
-              onChange={(ev) => setForm(ev.target.value)}
-              placeholder="select ticker"
-            />
-          </label>
-          <button type="submit">submit</button>
-        </form>
+        <SearchField setPrimaryTicker={setPrimaryTicker} />
       </div>
-      <div css={news}></div>
+      {bottomState ? (
+        <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} />
+      ) : (
+        <div css={news}>News</div>
+      )}
     </div>
   );
 }
