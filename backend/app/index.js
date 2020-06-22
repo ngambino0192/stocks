@@ -19,6 +19,24 @@ app.get("/symbols", async (req, res) => {
   res.json(data);
 });
 
+// get info on company
+app.get("/watchlist/:symbols", async (req, res) => {
+  console.log("hit");
+  const { symbols } = req.params;
+
+  let array = symbols.split(",");
+
+  const response = await axios.get(
+    `https://finnhub.io/api/v1/stock/symbol?exchange=US&token=${FINNHUB_TOKEN}`
+  );
+  let { data } = response;
+
+  const watchlist = data.filter((company) => {
+    return array.includes(company.symbol);
+  });
+  res.json(watchlist);
+});
+
 app.get("/target/:symbol", async (req, res) => {
   const { symbol } = req.params;
   const response = await axios.get(
