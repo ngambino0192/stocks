@@ -1,5 +1,4 @@
 /** @jsx jsx */
-// import { useState, useEffect } from "react";
 import { css, jsx } from "@emotion/core";
 
 const header = css`
@@ -22,15 +21,16 @@ const subtitle = css`
   font-size: 12px;
 `;
 
-const TickerListItem = ({ company, priceData }) => {
-  const { symbol, description } = company;
+const TickerListItem = ({ company }) => {
+  console.log(company);
+  const { symbol, description, c } = company;
   return (
     <div css={header}>
       <div>
         <div css={title}>{symbol}</div>
         <div css={subtitle}>{description}</div>
       </div>
-      <div>PRICE: {priceData.c}</div>
+      <div>PRICE: {c}</div>
     </div>
   );
 };

@@ -1,5 +1,7 @@
 /** @jsx jsx */
+import { useState } from "react";
 import { css, jsx } from "@emotion/core";
+import { updateWatchlist } from "../lib/utils";
 
 const header = css`
   display: flex;
@@ -26,30 +28,16 @@ const PrimaryTicker = ({
   watchlist,
   setWatchlist,
 }) => {
-  const updateWatchlist = function () {
+  const handleWatchlist = function () {
     setBottomState(true);
-    const watchlistCheck = watchlist.map((company) => {
-      return company.name;
-    });
-    if (!watchlistCheck.includes(primaryTicker) && primaryTicker) {
-      const watchLimit = 6;
-      if (watchlist.length < watchLimit) {
-        setWatchlist([
-          ...watchlist,
-          { name: primaryTicker, priceData: priceData },
-        ]);
-      } else {
-        alert(
-          `Cannot add more that ${watchLimit} companies to watchlist. Please remove a company before adding ${primaryTicker} to watchlist.`
-        );
-      }
-    } else {
-      alert(`${primaryTicker} already in watchlist`);
+    if (priceData.c) {
+      updateWatchlist(watchlist, setWatchlist, primaryTicker, priceData);
     }
   };
+
   return (
     <div css={header}>
-      <button css={button} onClick={() => priceData.c && updateWatchlist()}>
+      <button css={button} onClick={() => handleWatchlist()}>
         Add
       </button>
       <div>
