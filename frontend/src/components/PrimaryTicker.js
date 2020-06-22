@@ -1,5 +1,4 @@
 /** @jsx jsx */
-// import { useState, useEffect } from "react";
 import { css, jsx } from "@emotion/core";
 
 const header = css`
@@ -29,11 +28,28 @@ const PrimaryTicker = ({
 }) => {
   const updateWatchlist = function () {
     setBottomState(true);
-    setWatchlist([...watchlist, { name: primaryTicker, priceData: priceData }]);
+    const watchlistCheck = watchlist.map((company) => {
+      return company.name;
+    });
+    if (!watchlistCheck.includes(primaryTicker) && primaryTicker) {
+      const watchLimit = 6;
+      if (watchlist.length < watchLimit) {
+        setWatchlist([
+          ...watchlist,
+          { name: primaryTicker, priceData: priceData },
+        ]);
+      } else {
+        alert(
+          `Cannot add more that ${watchLimit} companies to watchlist. Please remove a company before adding ${primaryTicker} to watchlist.`
+        );
+      }
+    } else {
+      alert(`${primaryTicker} already in watchlist`);
+    }
   };
   return (
     <div css={header}>
-      <button css={button} onClick={() => updateWatchlist()}>
+      <button css={button} onClick={() => priceData.c && updateWatchlist()}>
         Add
       </button>
       <div>

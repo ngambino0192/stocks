@@ -16,7 +16,7 @@ const SearchField = ({ setPrimaryTicker }) => {
             name="ticker-select"
             type="text"
             value={formField}
-            onChange={(ev) => setForm(ev.target.value)}
+            onChange={(ev) => setForm(ev.target.value.toUpperCase())}
             placeholder="select ticker"
           />
         </label>
