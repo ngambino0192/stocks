@@ -6,17 +6,11 @@ import PrimaryTicker from "./components/PrimaryTicker";
 import Chart from "./components/Chart";
 import SearchField from "./components/SearchField";
 import Watchlist from "./components/Watchlist";
+import Newslist from "./components/Newslist";
 
 const graph = css`
   display: flex;
   align-items: center;
-  width: 100%;
-  height: 48vh;
-  border: solid black 2px;
-`;
-
-const news = css`
-  display: flex;
   width: 100%;
   height: 48vh;
   border: solid black 2px;
@@ -69,6 +63,7 @@ const data = [
 
 function App() {
   const [priceData, setpriceData] = useState({});
+  const [newslist, setNewslist] = useState([]);
   const [primaryTicker, setPrimaryTicker] = useState("AAPL");
   const [watchlist, setWatchlist] = useState([]);
   const [bottomState, setBottomState] = useState(true);
@@ -87,6 +82,20 @@ function App() {
       }
     };
     fetchData();
+  }, [primaryTicker]);
+
+  useEffect(() => {
+    const HTTP_OK = 200;
+    const fetchNewslist = async () => {
+      let response = await fetch(`http://localhost:6969/news/${primaryTicker}`);
+      if (response.status === HTTP_OK) {
+        let json = await response.json();
+        setNewslist(json);
+      } else {
+        alert(`error: ${response.status}`);
+      }
+    };
+    fetchNewslist();
   }, [primaryTicker]);
 
   return (
@@ -108,7 +117,7 @@ function App() {
       {bottomState ? (
         <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} />
       ) : (
-        <div css={news}>News</div>
+        <Newslist newslist={newslist} />
       )}
     </div>
   );

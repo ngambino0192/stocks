@@ -4,13 +4,13 @@ export const updateWatchlist = function (
   primaryTicker,
   priceData
 ) {
+  const HTTP_OK = 200;
+  const watchLimit = 6;
   const watchlistCheck = watchlist.map((company) => {
     return company.name;
   });
   if (!watchlistCheck.includes(primaryTicker) && primaryTicker) {
-    const watchLimit = 6;
     if (watchlist.length < watchLimit) {
-      const HTTP_OK = 200;
       const fetchData = async () => {
         const response = await fetch(
           `http://localhost:6969/watchlist/${primaryTicker}`

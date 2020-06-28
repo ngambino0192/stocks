@@ -1,5 +1,4 @@
 /** @jsx jsx */
-import { useState } from "react";
 import { css, jsx } from "@emotion/core";
 import { updateWatchlist } from "../lib/utils";
 

@@ -1,5 +1,4 @@
 /** @jsx jsx */
-import { useState, useEffect } from "react";
 import { jsx } from "@emotion/core";
 import TickerListItem from "./TickerListItem";
 

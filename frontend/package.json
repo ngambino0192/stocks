@@ -12,6 +12,7 @@
     "react-chartjs-2": "^2.9.0",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
+    "react-slick": "^0.26.1",
     "recharts": "^1.8.5"
   },
   "scripts": {

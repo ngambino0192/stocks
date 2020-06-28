@@ -66,6 +66,17 @@ app.get("/quote/:symbol", async (req, res) => {
   res.json(data);
 });
 
+// get timeseries data needs paid plan
+// app.get("/timeseries/:symbol", async (req, res) => {
+//   console.log("hit");
+//   const { symbol } = req.params;
+//   const response = await axios.get(
+//     `https://finnhub.io/api/v1/stock/candle?symbol=AAPL&resolution=1&from=1572651390&to=1572910590`
+//   );
+//   let { data } = response;
+//   res.json(data);
+// });
+
 app.listen(SERVER_PORT, () =>
   console.log(`express listening on port ${SERVER_PORT}`)
 );
