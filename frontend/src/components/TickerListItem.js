@@ -22,7 +22,6 @@ const subtitle = css`
 `;
 
 const TickerListItem = ({ company }) => {
-  console.log(company);
   const { symbol, description, c } = company;
   return (
     <div css={header}>
