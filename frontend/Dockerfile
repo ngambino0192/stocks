@@ -1,7 +1,8 @@
 # Start with alpine Node image official
 FROM node:10.13.0-alpine as production
 
-RUN adduser -D -g '' admin
+ARG DOCKER_USER
+RUN adduser -D -g '' $DOCKER_USER
 
 # Run updates and install deps
 RUN apk update && apk upgrade
@@ -21,7 +22,7 @@ RUN chown -R admin $APP_PATH
 WORKDIR $APP_PATH
 
 #Switch to user
-USER admin
+USER $DOCKER_USER
 
 #Install dependencies
 COPY package.json $APP_PATH
@@ -32,7 +33,7 @@ USER root
 RUN apk del bash git openssh
 
 #Add application files
-USER admin
+USER $DOCKER_USER
 COPY . $APP_PATH
 
 #Start the application
