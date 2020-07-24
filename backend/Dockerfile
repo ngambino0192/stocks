@@ -16,7 +16,7 @@ ENV APP_PATH /home/stocks/app
 RUN mkdir -p $APP_PATH
 
 #Change permission on app directory
-RUN chown -R admin $APP_PATH
+RUN chown -R $DOCKER_USER $APP_PATH
 
 #Set WORKDIR to run CMD from
 WORKDIR $APP_PATH
