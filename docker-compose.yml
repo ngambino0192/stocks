@@ -1,5 +1,22 @@
 version: "3"
 services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_USER}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_USER}
+    ports:
+      - ${MYSQL_PORT}:${MYSQL_PORT}
+    expose:
+      - ${MYSQL_PORT}
+    volumes:
+      - db:/home/stocks/mysql
+    networks:
+      - stocks-network
+
   backend:
     build:
       context: ./backend
@@ -7,7 +24,7 @@ services:
       args:
         - DOCKER_USER=${DOCKER_USER}
     ports:
-      - "6969:6969"
+      - ${BACKEND_PORT}:${BACKEND_PORT}
     container_name: backend
     working_dir: /home/stocks/app
     command: "yarn start"
@@ -17,6 +34,8 @@ services:
       - "backend_node_modules:/home/stocks/app/node_modules"
     networks:
       - stocks-network
+    depends_on:
+      - db
 
   frontend:
     build:
@@ -31,7 +50,7 @@ services:
       - "./frontend:/home/stocks/app"
       - "frontend_node_modules:/home/stocks/app/node_modules"
     ports:
-      - "3000:3000"
+      - ${FRONTEND_PORT}:${FRONTEND_PORT}
     networks:
       - stocks-network
     environment:
@@ -42,6 +61,7 @@ services:
       - backend
 
 volumes:
+  db:
   backend_node_modules:
   frontend_node_modules:
 networks:
