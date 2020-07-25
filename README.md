@@ -3,7 +3,6 @@
 ## Configure environment files
 
 `touch .env` - Reference `.env.example`
-`cd backend touch .env` - Reference `./backend/.env.example`
 
 ## Build docker container
 
