@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { FINNHUB_TOKEN, SERVER_PORT } = process.env;
+const { FINNHUB_TOKEN, BACKEND_PORT } = process.env;
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
@@ -77,6 +77,6 @@ app.get("/quote/:symbol", async (req, res) => {
 //   res.json(data);
 // });
 
-app.listen(SERVER_PORT, () =>
-  console.log(`express listening on port ${SERVER_PORT}`)
+app.listen(BACKEND_PORT, () =>
+  console.log(`express listening on port ${BACKEND_PORT}`)
 );

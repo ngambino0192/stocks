@@ -1,5 +1,15 @@
 version: "3"
 services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+
   backend:
     build:
       context: ./backend
@@ -7,16 +17,18 @@ services:
       args:
         - DOCKER_USER=${DOCKER_USER}
     ports:
-      - "6969:6969"
+      - ${BACKEND_PORT}:${BACKEND_PORT}
     container_name: backend
     working_dir: /home/stocks/app
     command: "yarn start"
-    env_file: ./backend/.env
+    env_file: .env
     volumes:
       - "./backend:/home/stocks/app"
       - "backend_node_modules:/home/stocks/app/node_modules"
     networks:
       - stocks-network
+    depends_on:
+      - db
 
   frontend:
     build:
@@ -31,7 +43,7 @@ services:
       - "./frontend:/home/stocks/app"
       - "frontend_node_modules:/home/stocks/app/node_modules"
     ports:
-      - "3000:3000"
+      - ${FRONTEND_PORT}:${FRONTEND_PORT}
     networks:
       - stocks-network
     environment:
@@ -42,6 +54,7 @@ services:
       - backend
 
 volumes:
+  db:
   backend_node_modules:
   frontend_node_modules:
 networks:
