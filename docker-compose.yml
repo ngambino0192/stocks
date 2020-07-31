@@ -1,61 +1,51 @@
 version: "3"
 services:
-  db:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_DB: ${DB_NAME}
-    ports:
-      - ${DB_PORT}:${DB_PORT}
-
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-      args:
-        - DOCKER_USER=${DOCKER_USER}
-    ports:
-      - ${BACKEND_PORT}:${BACKEND_PORT}
-    container_name: backend
-    working_dir: /home/stocks/app
-    command: "yarn start"
-    env_file: .env
+    container_name: stocks-backend
+    working_dir: /home/backend
     volumes:
-      - "./backend:/home/stocks/app"
-      - "backend_node_modules:/home/stocks/app/node_modules"
+      - "./backend:/home/backend"
+      - "backend_node_modules:/home/backend/node_modules"
+    ports:
+      - "6969:6969"
+    links:
+      - "db"
     networks:
       - stocks-network
-    depends_on:
-      - db
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-      args:
-        - DOCKER_USER=${DOCKER_USER}
-    container_name: frontend
-    working_dir: /home/stocks/app
-    command: "yarn start"
-    volumes:
-      - "./frontend:/home/stocks/app"
-      - "frontend_node_modules:/home/stocks/app/node_modules"
-    ports:
-      - ${FRONTEND_PORT}:${FRONTEND_PORT}
-    networks:
-      - stocks-network
+    container_name: stocks-frontend
+    working_dir: /home/frontend
     environment:
       - CHOKIDAR_USEPOLLING=true
-
     stdin_open: true
-    depends_on:
-      - backend
+    volumes:
+      - "./frontend:/home/frontend"
+      - "client_node_modules:/home/frontend/node_modules"
+    ports:
+      - "3000:3000"
+    networks:
+      - stocks-network
+
+  db:
+    image: postgres:latest
+    container_name: stocks-db
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - stocks-network
 
 volumes:
-  db:
   backend_node_modules:
-  frontend_node_modules:
+  client_node_modules:
 networks:
   stocks-network:

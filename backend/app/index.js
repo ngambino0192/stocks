@@ -1,14 +1,29 @@
 require("dotenv").config();
-const { FINNHUB_TOKEN, BACKEND_PORT } = process.env;
 const express = require("express");
 const axios = require("axios");
+const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 
+const { FINNHUB_TOKEN, BACKEND_PORT } = process.env;
+
+console.log(process.env);
+
+const database = require("./services/postgres");
+// const User = require("./services/postgres/User");
+
 app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get("/", (req, res) => {
   res.json("sanity check");
+});
+
+app.post("/api/user/create", async (req, res) => {
+  await database.sync();
+  const { username, email, password } = req.body;
+  res.json({ username, email, password });
 });
 
 app.get("/symbols", async (req, res) => {
