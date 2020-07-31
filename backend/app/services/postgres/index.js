@@ -1,4 +1,4 @@
-const { Sequelize, Model, DataTypes } = require("sequelize");
+const { Sequelize } = require("sequelize");
 // const User = require("./services/postgres/User");
 
 const database = new Sequelize("postgres", "postgres", "postgres", {

@@ -2,19 +2,30 @@ require("dotenv").config();
 const express = require("express");
 const axios = require("axios");
 const bodyParser = require("body-parser");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const cors = require("cors");
+
 const app = express();
 
-const { FINNHUB_TOKEN, BACKEND_PORT } = process.env;
-
-console.log(process.env);
+const {
+  FINNHUB_TOKEN,
+  BACKEND_PORT,
+  SALT_ROUNDS,
+  JWT_SECRET_KEY,
+} = process.env;
 
 const database = require("./services/postgres");
-// const User = require("./services/postgres/User");
+const User = require("./services/postgres/User");
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+const saltRounds = SALT_ROUNDS;
+
+const jwtKey = JWT_SECRET_KEY;
+const jwtExpirySeconds = 300;
 
 app.get("/", (req, res) => {
   res.json("sanity check");
@@ -23,7 +34,43 @@ app.get("/", (req, res) => {
 app.post("/api/user/create", async (req, res) => {
   await database.sync();
   const { username, email, password } = req.body;
-  res.json({ username, email, password });
+  try {
+    const hash = await bcrypt.hash(password, saltRounds);
+    const user = await User.create({ username, email, password: hash });
+    res.json(user);
+  } catch (err) {
+    res.json(`an error occurred during registration: ${err}`);
+  }
+});
+
+app.post("/api/user/login", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({
+      where: {
+        email,
+      },
+    });
+    const validated = await bcrypt.compare(password, user.password);
+    if (validated) {
+      let { id, username, email } = user;
+
+      const token = jwt.sign({ username }, jwtKey, {
+        algorithm: "HS256",
+        expiresIn: jwtExpirySeconds,
+      });
+
+      res.cookie("token", token, {
+        maxAge: jwtExpirySeconds * 1000,
+        httpOnly: false,
+      });
+
+      res.json({ token, user: { id, username, email } });
+    }
+  } catch (err) {
+    console.log(err);
+    res.json("an error occurred during login");
+  }
 });
 
 app.get("/symbols", async (req, res) => {
@@ -36,7 +83,6 @@ app.get("/symbols", async (req, res) => {
 
 // get info on company
 app.get("/watchlist/:symbols", async (req, res) => {
-  console.log("hit");
   const { symbols } = req.params;
 
   let array = symbols.split(",");
