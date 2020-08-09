@@ -3,16 +3,7 @@ import { css, jsx } from "@emotion/core";
 import { updateWatchlist } from "../lib/utils";
 
 const header = css`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding-left: 20px;
-  padding-right: 20px;
-  height: 6vh;
-  border: solid black 2px;
-  font-size: 24px;
-  font-family: "Roboto";
+  text-align: center;
 `;
 
 const button = css`
@@ -36,9 +27,9 @@ const PrimaryTicker = ({
 
   return (
     <div css={header}>
-      <button css={button} onClick={() => handleWatchlist()}>
+      {/* <button css={button} onClick={() => handleWatchlist()}>
         Add
-      </button>
+      </button> */}
       <div>
         {priceData.c ? (
           <div>
@@ -48,7 +39,7 @@ const PrimaryTicker = ({
           <div>No Results Found</div>
         )}
       </div>
-      {bottomState ? (
+      {/* {bottomState ? (
         <button css={button} onClick={() => setBottomState(false)}>
           News
         </button>
@@ -56,7 +47,7 @@ const PrimaryTicker = ({
         <button css={button} onClick={() => setBottomState(true)}>
           Watchlist
         </button>
-      )}
+      )} */}
     </div>
   );
 };

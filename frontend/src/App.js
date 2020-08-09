@@ -7,14 +7,15 @@ import Chart from "./components/Chart";
 import SearchField from "./components/SearchField";
 import Watchlist from "./components/Watchlist";
 import Newslist from "./components/Newslist";
+import { updateWatchlist } from "./lib/utils";
 
-const graph = css`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 48vh;
-  border: solid black 2px;
-`;
+
+// const graph = css`
+//   display: flex;
+//   align-items: center;
+//   width: 100%;
+//   height: 48vh;
+// `;
 
 const data = [
   {
@@ -98,9 +99,44 @@ function App() {
     fetchNewslist();
   }, [primaryTicker]);
 
+  const handleWatchlist = function () {
+    setBottomState(true);
+    if (priceData.c) {
+      updateWatchlist(watchlist, setWatchlist, primaryTicker, priceData);
+    }
+  };
+
   return (
-    <div css={{ height: "100vh", overflow: "hidden" }}>
+    <div className="flex flex-wrap">
+      <div className="w-full md:w-1/3 h-12">
+        <SearchField setPrimaryTicker={setPrimaryTicker} />
+        <button onClick={() => handleWatchlist()}>
+          Add
+        </button>
+        <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} />
+      </div>
+      <div className="w-full md:w-2/3 h-12">
       <PrimaryTicker
+        priceData={priceData}
+        primaryTicker={primaryTicker}
+        bottomState={bottomState}
+        setBottomState={setBottomState}
+        watchlist={watchlist}
+        setWatchlist={setWatchlist}
+        />
+        {/* <div css={graph}> */}
+          <Chart data={data} />
+        {/* </div> */}
+        <Newslist newslist={newslist} />
+      </div>
+    </div>
+  );
+}
+
+export default App;
+
+
+{/* <PrimaryTicker
         priceData={priceData}
         primaryTicker={primaryTicker}
         bottomState={bottomState}
@@ -118,9 +154,4 @@ function App() {
         <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} />
       ) : (
         <Newslist newslist={newslist} />
-      )}
-    </div>
-  );
-}
-
-export default App;
+      )} */}
