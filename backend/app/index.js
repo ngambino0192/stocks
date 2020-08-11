@@ -15,6 +15,8 @@ const {
   JWT_SECRET_KEY,
 } = process.env;
 
+console.log(BACKEND_PORT, SALT_ROUNDS);
+
 const database = require("./services/postgres");
 const User = require("./services/postgres/User");
 
@@ -136,6 +138,6 @@ app.get("/quote/:symbol", async (req, res) => {
 //   res.json(data);
 // });
 
-app.listen(BACKEND_PORT, () =>
+app.listen(6969, () =>
   console.log(`express listening on port ${BACKEND_PORT}`)
 );

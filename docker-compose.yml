@@ -5,7 +5,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: stocks-backend
-    working_dir: /home/backend
+    working_dir: /home/app
+    env_file: .env
     volumes:
       - "./backend:/home/backend"
       - "backend_node_modules:/home/backend/node_modules"
@@ -21,7 +22,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: stocks-frontend
-    working_dir: /home/frontend
+    working_dir: /home/app
     environment:
       - CHOKIDAR_USEPOLLING=true
     stdin_open: true
