@@ -1,5 +1,5 @@
 const { Sequelize } = require("sequelize");
-const database = require("./index");
+const database = require("../index");
 
 const User = database.define("user", {
   username: Sequelize.STRING,
