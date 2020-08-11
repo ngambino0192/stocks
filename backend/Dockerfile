@@ -23,4 +23,4 @@ COPY . $APP_PATH
 EXPOSE 6969
 
 #Start the application
-CMD yarn start
+CMD npm start

@@ -22,8 +22,6 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const saltRounds = SALT_ROUNDS;
-
 const jwtKey = JWT_SECRET_KEY;
 const jwtExpirySeconds = 300;
 
@@ -35,7 +33,7 @@ app.post("/api/user/create", async (req, res) => {
   await database.sync();
   const { username, email, password } = req.body;
   try {
-    const hash = await bcrypt.hash(password, saltRounds);
+    const hash = await bcrypt.hash(password, parseInt(SALT_ROUNDS));
     const user = await User.create({ username, email, password: hash });
     res.json(user);
   } catch (err) {

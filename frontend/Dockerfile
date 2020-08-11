@@ -14,6 +14,7 @@ WORKDIR $APP_PATH
 #Install dependencies
 COPY package.json $APP_PATH
 RUN npm install
+RUN npm install postcss-cli -g
 
 #Add application files
 COPY . $APP_PATH
@@ -22,4 +23,4 @@ COPY . $APP_PATH
 EXPOSE 3000
 
 #Start the application
-CMD yarn start
+CMD npm start
