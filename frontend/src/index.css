@@ -2,3 +2,12 @@ body {
   background: #07090A;
   color: #E5E5E5;
 }
+
+.slick-slide>div {
+  margin: 10px;
+  background-color: black;
+}
+
+.article-image {
+  height: 9em;
+}
