@@ -13,7 +13,7 @@ export const updateWatchlist = function (
     if (watchlist.length < watchLimit) {
       const fetchData = async () => {
         const response = await fetch(
-          `http://localhost:6969/watchlist/${primaryTicker}`
+          `http://localhost:6969/${primaryTicker}watchlist`
         );
         if (response.status === HTTP_OK) {
           const [json] = await response.json();

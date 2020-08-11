@@ -52,14 +52,14 @@ exports.authenticate = async (req, res) => {
   }
 };
 
-// Retrieve and return all users from the database.
+// Retrieve and return all users from the database. unused
 exports.findAll = (req, res) => {};
 
-// Find a single user with an id
+// Find a single user with an id unused
 exports.findOne = (req, res) => {};
 
-// Update a note identified by the id in the request
+// Update a note identified by the id in the request unused
 exports.update = (req, res) => {};
 
-// Delete a note with the specified id in the request
+// Delete a note with the specified id in the request unused
 exports.delete = (req, res) => {};

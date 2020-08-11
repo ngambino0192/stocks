@@ -9,7 +9,6 @@ import Watchlist from "./components/Watchlist";
 import Newslist from "./components/Newslist";
 import { updateWatchlist } from "./lib/utils";
 
-
 // const graph = css`
 //   display: flex;
 //   align-items: center;
@@ -73,7 +72,7 @@ function App() {
     const HTTP_OK = 200;
     const fetchData = async () => {
       let response = await fetch(
-        `http://localhost:6969/quote/${primaryTicker}`
+        `http://localhost:6969/${primaryTicker}/quote`
       );
       if (response.status === HTTP_OK) {
         let json = await response.json();
@@ -88,7 +87,7 @@ function App() {
   useEffect(() => {
     const HTTP_OK = 200;
     const fetchNewslist = async () => {
-      let response = await fetch(`http://localhost:6969/news/${primaryTicker}`);
+      let response = await fetch(`http://localhost:6969/${primaryTicker}/news`);
       if (response.status === HTTP_OK) {
         let json = await response.json();
         setNewslist(json);
@@ -110,22 +109,20 @@ function App() {
     <div className="flex flex-wrap">
       <div className="w-full md:w-1/3 h-12">
         <SearchField setPrimaryTicker={setPrimaryTicker} />
-        <button onClick={() => handleWatchlist()}>
-          Add
-        </button>
+        <button onClick={() => handleWatchlist()}>Add</button>
         <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} />
       </div>
       <div className="w-full md:w-2/3 h-12">
-      <PrimaryTicker
-        priceData={priceData}
-        primaryTicker={primaryTicker}
-        bottomState={bottomState}
-        setBottomState={setBottomState}
-        watchlist={watchlist}
-        setWatchlist={setWatchlist}
+        <PrimaryTicker
+          priceData={priceData}
+          primaryTicker={primaryTicker}
+          bottomState={bottomState}
+          setBottomState={setBottomState}
+          watchlist={watchlist}
+          setWatchlist={setWatchlist}
         />
         {/* <div css={graph}> */}
-          <Chart data={data} />
+        <Chart data={data} />
         {/* </div> */}
         <Newslist newslist={newslist} />
       </div>
@@ -135,8 +132,8 @@ function App() {
 
 export default App;
 
-
-{/* <PrimaryTicker
+{
+  /* <PrimaryTicker
         priceData={priceData}
         primaryTicker={primaryTicker}
         bottomState={bottomState}
@@ -154,4 +151,5 @@ export default App;
         <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} />
       ) : (
         <Newslist newslist={newslist} />
-      )} */}
+      )} */
+}
