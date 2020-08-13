@@ -1,14 +1,6 @@
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core";
-import { updateWatchlist } from "../lib/utils";
-
-const header = css`
-  text-align: center;
-`;
-
-const button = css`
-  cursor: pointer;
-`;
+import { css, jsx } from '@emotion/core';
+import { updateWatchlist } from '../lib/utils';
 
 const PrimaryTicker = ({
   priceData,
@@ -26,10 +18,7 @@ const PrimaryTicker = ({
   };
 
   return (
-    <div css={header}>
-      {/* <button css={button} onClick={() => handleWatchlist()}>
-        Add
-      </button> */}
+    <div className="text-center text-2xl font-bold">
       <div>
         {priceData.c ? (
           <div>
@@ -39,15 +28,6 @@ const PrimaryTicker = ({
           <div>No Results Found</div>
         )}
       </div>
-      {/* {bottomState ? (
-        <button css={button} onClick={() => setBottomState(false)}>
-          News
-        </button>
-      ) : (
-        <button css={button} onClick={() => setBottomState(true)}>
-          Watchlist
-        </button>
-      )} */}
     </div>
   );
 };

@@ -3,11 +3,12 @@ body {
   color: #E5E5E5;
 }
 
+.slick-list {
+  max-height: 400px;
+}
+
 .slick-slide>div {
   margin: 10px;
   background-color: black;
-}
-
-.article-image {
-  height: 9em;
+  max-width: 300px;
 }
