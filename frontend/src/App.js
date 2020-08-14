@@ -9,13 +9,6 @@ import Watchlist from './components/Watchlist';
 import Newslist from './components/Newslist';
 import { updateWatchlist } from './lib/utils';
 
-// const graph = css`
-//   display: flex;
-//   align-items: center;
-//   width: 100%;
-//   height: 48vh;
-// `;
-
 const data = [
   {
     name: 'Page A',
@@ -104,17 +97,18 @@ function App() {
   };
 
   return (
-    <div className="flex flex-wrap p-5">
-      <div className="w-full md:w-1/4 h-12">
+    <div className="flex flex-wrap">
+      <div
+        className="w-full lg:w-3/12 xl:w-2/12 lg:h-screen py-5 px-2"
+        style={{ background: '#0A0D0F' }}
+      >
         <SearchField setPrimaryTicker={setPrimaryTicker} />
-        <button onClick={() => handleWatchlist()}>Add</button>
         <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} />
       </div>
-      <div className="w-full md:w-3/4 h-12">
+      <div className="flex flex-col items-center w-full lg:w-9/12 xl:w-10/12 h-12 p-5">
         <PrimaryTicker
           priceData={priceData}
           primaryTicker={primaryTicker}
-          bottomState={bottomState}
           setBottomState={setBottomState}
           watchlist={watchlist}
           setWatchlist={setWatchlist}

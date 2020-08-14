@@ -8,9 +8,12 @@ const SearchField = ({ setPrimaryTicker }) => {
     setPrimaryTicker(formField);
   };
   return (
-    <form className="flex flex-nowrap" onSubmit={(ev) => handleSubmit(ev)}>
+    <form
+      className="flex flex-wrap lg:flex-no-wrap justify-center"
+      onSubmit={(ev) => handleSubmit(ev)}
+    >
       <div>
-        <div className="mr-3">
+        <div className="mx-1">
           <label htmlFor="ticker-select">
             <input
               className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
@@ -27,10 +30,10 @@ const SearchField = ({ setPrimaryTicker }) => {
       <div>
         <div className="w-2/3">
           <button
-            className="shadow bg-gray-900 hover:bg-gray-800 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+            className="shadow bg-gray-900 hover:bg-gray-800 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded mx-1"
             type="submit"
           >
-            Search
+            Submit
           </button>
         </div>
       </div>
