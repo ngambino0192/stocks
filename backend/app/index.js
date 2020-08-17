@@ -36,6 +36,10 @@ app.post("/api/user/create", async (req, res) => {
   const { username, email, password } = req.body;
   try {
     const hash = await bcrypt.hash(password, parseInt(SALT_ROUNDS));
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      res.json("A user was already created with that email address");
+    }
     const user = await User.create({ username, email, password: hash });
     res.json(user);
   } catch (err) {
