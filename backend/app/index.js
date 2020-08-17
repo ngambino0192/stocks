@@ -15,8 +15,6 @@ const {
   JWT_SECRET_KEY,
 } = process.env;
 
-console.log(BACKEND_PORT, SALT_ROUNDS);
-
 const database = require("./services/postgres");
 const User = require("./services/postgres/User");
 
@@ -36,12 +34,13 @@ app.post("/api/user/create", async (req, res) => {
   const { username, email, password } = req.body;
   try {
     const hash = await bcrypt.hash(password, parseInt(SALT_ROUNDS));
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       res.json("A user was already created with that email address");
+    } else {
+      const user = await User.create({ username, email, password: hash });
+      res.json(user);
     }
-    const user = await User.create({ username, email, password: hash });
-    res.json(user);
   } catch (err) {
     res.json(`an error occurred during registration: ${err}`);
   }
@@ -72,7 +71,6 @@ app.post("/api/user/login", async (req, res) => {
       res.json({ token, user: { id, username, email } });
     }
   } catch (err) {
-    console.log(err);
     res.json("an error occurred during login");
   }
 });
@@ -133,7 +131,6 @@ app.get("/quote/:symbol", async (req, res) => {
 
 // get timeseries data needs paid plan
 // app.get("/timeseries/:symbol", async (req, res) => {
-//   console.log("hit");
 //   const { symbol } = req.params;
 //   const response = await axios.get(
 //     `https://finnhub.io/api/v1/stock/candle?symbol=AAPL&resolution=1&from=1572651390&to=1572910590`
