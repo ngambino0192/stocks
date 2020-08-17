@@ -15,8 +15,13 @@ exports.create = async (req, res) => {
   const { username, email, password } = req.body;
   try {
     const hash = await bcrypt.hash(password, parseInt(SALT_ROUNDS));
-    const user = await User.create({ username, email, password: hash });
-    res.json(user);
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      res.json("User already exists with this email address");
+    } else {
+      const user = await User.create({ username, email, password: hash });
+      res.json(user);
+    }
   } catch (err) {
     res.json(`an error occurred during registration: ${err}`);
   }
