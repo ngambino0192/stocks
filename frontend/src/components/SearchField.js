@@ -8,10 +8,7 @@ const SearchField = ({ setPrimaryTicker }) => {
     setPrimaryTicker(formField);
   };
   return (
-    <form
-      className="flex flex-wrap lg:flex-no-wrap justify-center"
-      onSubmit={(ev) => handleSubmit(ev)}
-    >
+    <form className="flex flex-wrap lg:flex-no-wrap" onSubmit={(ev) => handleSubmit(ev)}>
       <div>
         <div className="mx-1">
           <label htmlFor="ticker-select">

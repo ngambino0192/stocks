@@ -8,6 +8,13 @@ import SearchField from './components/SearchField';
 import Watchlist from './components/Watchlist';
 import Newslist from './components/Newslist';
 import { updateWatchlist } from './lib/utils';
+import { theme } from './theme';
+
+const { colors } = theme;
+
+const sidebar = css`
+  background: ${colors.gray200};
+`;
 
 const data = [
   {
@@ -98,10 +105,7 @@ function App() {
 
   return (
     <div className="flex flex-wrap">
-      <div
-        className="w-full lg:w-3/12 xl:w-2/12 lg:h-screen py-5 px-2"
-        style={{ background: '#0A0D0F' }}
-      >
+      <div className="w-full lg:w-3/12 xl:w-2/12 lg:h-screen py-5 px-2 shadow-md" css={sidebar}>
         <SearchField setPrimaryTicker={setPrimaryTicker} />
         <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} />
       </div>
