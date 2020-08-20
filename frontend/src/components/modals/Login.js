@@ -106,7 +106,7 @@ const LogIn = function ({
           css={input}
         />
         <label htmlFor="password" css={inputText}>
-          Create Password
+          Password
         </label>
         <input
           type="password"

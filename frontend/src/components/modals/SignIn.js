@@ -71,7 +71,7 @@ const SignIn = function ({ showDialog, setShowDialog, setHasAccount }) {
     >
       <form css={modalWrapper} onSubmit={handleSubmit}>
         <label htmlFor="user-name" css={inputText}>
-          Username
+          Create Username
         </label>
         <input
           type="text"
@@ -84,7 +84,7 @@ const SignIn = function ({ showDialog, setShowDialog, setHasAccount }) {
           css={input}
         />
         <label htmlFor="email" css={inputText}>
-          Email
+          Create Email
         </label>
         <input
           type="email"
