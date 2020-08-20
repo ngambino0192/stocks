@@ -7,7 +7,7 @@ export const updateWatchlist = function (
   const HTTP_OK = 200;
   const watchLimit = 6;
   const watchlistCheck = watchlist.map((company) => {
-    return company.name;
+    return company.displaySymbol;
   });
   if (!watchlistCheck.includes(primaryTicker) && primaryTicker) {
     if (watchlist.length < watchLimit) {
