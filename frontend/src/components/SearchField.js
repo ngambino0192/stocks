@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 const SearchField = ({ setPrimaryTicker }) => {
-  const [formField, setForm] = useState("");
+  const [formField, setForm] = useState('');
 
   const handleSubmit = function (ev) {
     ev.preventDefault();

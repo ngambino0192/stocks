@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core";
-import { updateWatchlist } from "../lib/utils";
+import { css, jsx } from '@emotion/core';
+import { updateWatchlist } from '../lib/utils';
 
 const header = css`
   display: flex;
@@ -12,7 +12,7 @@ const header = css`
   height: 6vh;
   border: solid black 2px;
   font-size: 24px;
-  font-family: "Roboto";
+  font-family: 'Roboto';
 `;
 
 const button = css`

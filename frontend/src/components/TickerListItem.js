@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core";
+import { css, jsx } from '@emotion/core';
 
 const header = css`
   display: flex;
@@ -10,7 +10,7 @@ const header = css`
   padding-right: 20px;
   height: 6vh;
   border: solid black 2px;
-  font-family: "Roboto";
+  font-family: 'Roboto';
 `;
 
 const title = css`

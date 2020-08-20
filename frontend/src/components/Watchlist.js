@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import { jsx } from "@emotion/core";
-import TickerListItem from "./TickerListItem";
+import { jsx } from '@emotion/core';
+import TickerListItem from './TickerListItem';
 
 const Watchlist = ({ watchlist }) => {
   return (
