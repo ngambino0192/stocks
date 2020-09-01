@@ -1,6 +1,8 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import { useState } from "react";
+import { postForm } from "../../lib/form";
+import Cookies from "js-cookie";
 
 import Modal from "./Modal";
 import { ModalHeaderAuth } from "./ModalHeader";
@@ -60,7 +62,21 @@ const LogIn = function ({
 
   let handleSubmit = function (ev) {
     ev.preventDefault();
-    console.log("LOG USER IN");
+    setSubmitting(true);
+    postForm("http://localhost:5000/api/user/authenticate", {
+      body: JSON.stringify({ username, email, password }),
+    })
+      .then(({ resp, json }) => {
+        if (resp.ok) {
+          Cookies.set("user", json);
+          setShowDialog(false);
+        } else {
+          window.alert("Whoops, there was an error. Please try again.");
+        }
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
   };
 
   return (
@@ -86,7 +102,7 @@ const LogIn = function ({
           name="user-name"
           required
           value={username}
-          // placeholder="Username"
+          placeholder="Username"
           onChange={(ev) => setUsername(ev.target.value)}
           aria-label="Username"
           css={input}
@@ -100,7 +116,7 @@ const LogIn = function ({
           name="email"
           required
           value={email}
-          // placeholder="Email"
+          placeholder="Email"
           onChange={(ev) => setEmail(ev.target.value)}
           aria-label="Email"
           css={input}
@@ -114,7 +130,7 @@ const LogIn = function ({
           name="password"
           required
           value={password}
-          // placeholder="Password"
+          placeholder="Password"
           onChange={(ev) => setPassword(ev.target.value)}
           aria-label="Password"
           css={input}
