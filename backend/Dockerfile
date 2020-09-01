@@ -3,7 +3,7 @@ FROM node:10
 # Run updates and install deps
 # RUN apk update && apk upgrade
 
-ENV APP_PATH /home/app
+ENV APP_PATH /home/backend
 
 #Create app directory
 RUN mkdir -p $APP_PATH

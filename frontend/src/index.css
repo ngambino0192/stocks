@@ -1,13 +1,13 @@
 body {
-  background: #0A0E11;
-  color: #E5E5E5;
+  background: #0a0e11;
+  color: #e5e5e5;
 }
 
 .slick-list {
   max-height: 400px;
 }
 
-.slick-slide>div {
+.slick-slide > div {
   margin: 10px;
-  background-color: #070B0E;
+  background-color: #070b0e;
 }
