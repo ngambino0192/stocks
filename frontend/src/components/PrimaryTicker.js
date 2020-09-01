@@ -1,9 +1,14 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { updateWatchlist } from '../lib/utils';
-import { useEffect } from 'react';
+import React from "react";
+import { updateWatchlist } from "../lib/utils";
+import { useEffect } from "react";
 
-const PrimaryTicker = ({ priceData, primaryTicker, setBottomState, watchlist, setWatchlist }) => {
+const PrimaryTicker = ({
+  priceData,
+  primaryTicker,
+  setBottomState,
+  watchlist,
+  setWatchlist,
+}) => {
   const handleWatchlist = () => {
     setBottomState(true);
     if (priceData.c) {
@@ -28,14 +33,14 @@ const PrimaryTicker = ({ priceData, primaryTicker, setBottomState, watchlist, se
             <button onClick={() => handleWatchlist()}>
               {isWatching().length > 0 ? (
                 <img
-                  src={require('../icons/star-filled.svg')}
+                  src={require("../icons/star-filled.svg")}
                   alt="Add to watch list"
                   title="Add to watch list"
                   className="w-6 h-6"
                 />
               ) : (
                 <img
-                  src={require('../icons/star.svg')}
+                  src={require("../icons/star.svg")}
                   alt="Watching"
                   title="Watching"
                   className="w-6 h-6"
