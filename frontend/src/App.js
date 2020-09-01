@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { useState, useEffect } from "react";
 import { css, jsx } from "@emotion/core";
+import Cookies from "js-cookie";
 
 import accountIcon from "./icons/account-white.svg";
 
@@ -83,6 +84,8 @@ function App() {
   const [showSignOut, setShowSignOut] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
 
+  const user = Cookies.get("user");
+
   useEffect(() => {
     const HTTP_OK = 200;
     const fetchData = async () => {
@@ -124,9 +127,15 @@ function App() {
     <div className="flex flex-wrap">
       <SignOut showDialog={showSignOut} setShowDialog={setShowSignOut} />
       <Authenticate showDialog={showAuth} setShowDialog={setShowAuth} />
-      <div css={account} onClick={() => setShowAuth(true)}>
-        <img src={accountIcon} />
-      </div>
+      {user ? (
+        <div css={account} onClick={() => setShowSignOut(true)}>
+          <img src={accountIcon} />
+        </div>
+      ) : (
+        <div css={account} onClick={() => setShowAuth(true)}>
+          <button onClick={() => setShowAuth(true)}>Sign In</button>
+        </div>
+      )}
       <div
         className="w-full lg:w-3/12 xl:w-2/12 lg:h-screen py-5 px-2 shadow-md"
         css={sidebar}

@@ -71,7 +71,7 @@ app.post("/api/user/login", async (req, res) => {
       res.json({ token, user: { id, username, email } });
     }
   } catch (err) {
-    res.json("an error occurred during login");
+    res.json("an error occurred during login: ", err);
   }
 });
 

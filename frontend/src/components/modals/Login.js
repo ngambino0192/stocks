@@ -35,6 +35,7 @@ const input = css`
   margin-top: 10px;
   margin-bottom: 10px;
   outline: none;
+  color: black;
   &:focus {
     border: 2px solid red;
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
@@ -46,6 +47,7 @@ const buttonWrapper = css`
   flex-direction: column;
   align-items: center;
   padding-top: 30px;
+  color: black;
 `;
 
 const LogIn = function ({
@@ -63,11 +65,12 @@ const LogIn = function ({
   let handleSubmit = function (ev) {
     ev.preventDefault();
     setSubmitting(true);
-    postForm("http://localhost:5000/api/user/authenticate", {
-      body: JSON.stringify({ username, email, password }),
+    postForm("http://localhost:6969/api/user/login", {
+      body: JSON.stringify({ email, password }),
     })
       .then(({ resp, json }) => {
-        if (resp.ok) {
+        console.log("resp: ", resp);
+        if (resp?.ok) {
           Cookies.set("user", json);
           setShowDialog(false);
         } else {
@@ -93,20 +96,6 @@ const LogIn = function ({
       }
     >
       <form css={modalWrapper} onSubmit={(ev) => handleSubmit(ev)}>
-        <label htmlFor="user-name" css={inputText}>
-          Username
-        </label>
-        <input
-          type="text"
-          id="user-name"
-          name="user-name"
-          required
-          value={username}
-          placeholder="Username"
-          onChange={(ev) => setUsername(ev.target.value)}
-          aria-label="Username"
-          css={input}
-        />
         <label htmlFor="email" css={inputText}>
           Email
         </label>

@@ -48,6 +48,7 @@ const buttonWrapper = css`
   flex-direction: column;
   align-items: center;
   padding-top: 30px;
+  color: black;
 `;
 
 const SignIn = function ({ showDialog, setShowDialog, setHasAccount }) {
