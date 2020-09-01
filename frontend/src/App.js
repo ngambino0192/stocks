@@ -11,6 +11,7 @@ import SearchField from "./components/SearchField";
 import Watchlist from "./components/Watchlist";
 import Newslist from "./components/Newslist";
 import SignOut from "./components/modals/SignOut";
+import Reset from "./components/modals/Reset";
 import Authenticate from "./components/modals/Authenticate";
 import { theme } from "./theme";
 
@@ -81,6 +82,7 @@ function App() {
   const [watchlist, setWatchlist] = useState([]);
   const [, setBottomState] = useState(true);
   const [showSignOut, setShowSignOut] = useState(false);
+  const [showReset, setShowReset] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
 
   const user = Cookies.get("user");
@@ -118,7 +120,12 @@ function App() {
   return (
     <div className="flex flex-wrap">
       <SignOut showDialog={showSignOut} setShowDialog={setShowSignOut} />
-      <Authenticate showDialog={showAuth} setShowDialog={setShowAuth} />
+      <Reset showDialog={showReset} setShowDialog={setShowReset} />
+      <Authenticate
+        showDialog={showAuth}
+        setShowDialog={setShowAuth}
+        setShowReset={setShowReset}
+      />
       {user ? (
         <div css={account} onClick={() => setShowSignOut(true)}>
           <img alt="icon-account" src={accountIcon} />

@@ -68,10 +68,31 @@ app.post("/api/user/login", async (req, res) => {
         httpOnly: false,
       });
 
-      res.json({ token, user: { id, username, email } });
+      res.status(200).json({ token, user: { id, username, email } });
+    } else {
+      res.status(401).json("Incorrect Password");
     }
   } catch (err) {
     res.json("an error occurred during login: ", err);
+  }
+});
+
+app.post("/api/user/reset", async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({
+      where: {
+        email,
+      },
+    });
+    if (user) {
+      let { email } = user;
+      res.status(200).json({ user: email });
+    } else {
+      res.status(404).json("email does not exist");
+    }
+  } catch (err) {
+    res.json("an error occurred during reset process: ", err);
   }
 });
 
