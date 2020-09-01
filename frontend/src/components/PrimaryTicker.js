@@ -1,6 +1,5 @@
 import React from "react";
 import { updateWatchlist } from "../lib/utils";
-import { useEffect } from "react";
 
 const PrimaryTicker = ({
   priceData,

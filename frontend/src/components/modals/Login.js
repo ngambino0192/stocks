@@ -56,7 +56,6 @@ const LogIn = function ({
   hasAccount,
   setHasAccount,
 }) {
-  let [username, setUsername] = useState("");
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   let [submitting, setSubmitting] = useState(false);

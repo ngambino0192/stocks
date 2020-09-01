@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { jsx } from "@emotion/core";
 
 const TickerListItem = ({ company }) => {
   const { symbol, description, c } = company;

@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
-import { colors } from "../..//lib/theme";
+// import { colors } from "../..//lib/theme";
 import "@reach/dialog/styles.css";
 
 import closeIcon from "../../icons/close.svg";

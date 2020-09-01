@@ -12,7 +12,6 @@ import Watchlist from "./components/Watchlist";
 import Newslist from "./components/Newslist";
 import SignOut from "./components/modals/SignOut";
 import Authenticate from "./components/modals/Authenticate";
-import { updateWatchlist } from "./lib/utils";
 import { theme } from "./theme";
 
 const { colors } = theme;
@@ -80,7 +79,7 @@ function App() {
   const [newslist, setNewslist] = useState([]);
   const [primaryTicker, setPrimaryTicker] = useState("AAPL");
   const [watchlist, setWatchlist] = useState([]);
-  const [bottomState, setBottomState] = useState(true);
+  const [, setBottomState] = useState(true);
   const [showSignOut, setShowSignOut] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
 
@@ -116,20 +115,13 @@ function App() {
     fetchNewslist();
   }, [primaryTicker]);
 
-  const handleWatchlist = function () {
-    setBottomState(true);
-    if (priceData.c) {
-      updateWatchlist(watchlist, setWatchlist, primaryTicker, priceData);
-    }
-  };
-
   return (
     <div className="flex flex-wrap">
       <SignOut showDialog={showSignOut} setShowDialog={setShowSignOut} />
       <Authenticate showDialog={showAuth} setShowDialog={setShowAuth} />
       {user ? (
         <div css={account} onClick={() => setShowSignOut(true)}>
-          <img src={accountIcon} />
+          <img alt="icon-account" src={accountIcon} />
         </div>
       ) : (
         <div css={account} onClick={() => setShowAuth(true)}>
