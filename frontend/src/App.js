@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { css, jsx } from "@emotion/core";
 import Cookies from "js-cookie";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import accountIcon from "./icons/account-white.svg";
 
@@ -11,6 +12,7 @@ import SearchField from "./components/SearchField";
 import Watchlist from "./components/Watchlist";
 import Newslist from "./components/Newslist";
 import SignOut from "./components/modals/SignOut";
+import ForgotPassword from "./components/modals/ForgotPassword";
 import Reset from "./components/modals/Reset";
 import Authenticate from "./components/modals/Authenticate";
 import { theme } from "./theme";
@@ -82,8 +84,10 @@ function App() {
   const [watchlist, setWatchlist] = useState([]);
   const [, setBottomState] = useState(true);
   const [showSignOut, setShowSignOut] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [showReset, setShowReset] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
+  const [queryString] = useState(window.location.search);
 
   const user = Cookies.get("user");
 
@@ -117,43 +121,55 @@ function App() {
     fetchNewslist();
   }, [primaryTicker]);
 
+  useEffect(() => {
+    if (queryString) {
+      setShowReset(true);
+    }
+  }, [queryString]);
+
   return (
-    <div className="flex flex-wrap">
-      <SignOut showDialog={showSignOut} setShowDialog={setShowSignOut} />
-      <Reset showDialog={showReset} setShowDialog={setShowReset} />
-      <Authenticate
-        showDialog={showAuth}
-        setShowDialog={setShowAuth}
-        setShowReset={setShowReset}
-      />
-      {user ? (
-        <div css={account} onClick={() => setShowSignOut(true)}>
-          <img alt="icon-account" src={accountIcon} />
-        </div>
-      ) : (
-        <div css={account} onClick={() => setShowAuth(true)}>
-          <button onClick={() => setShowAuth(true)}>Sign In</button>
-        </div>
-      )}
-      <div
-        className="w-full lg:w-3/12 xl:w-2/12 lg:h-screen py-5 px-2 shadow-md"
-        css={sidebar}
-      >
-        <SearchField setPrimaryTicker={setPrimaryTicker} />
-        <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} />
-      </div>
-      <div className="flex flex-col items-center w-full lg:w-9/12 xl:w-10/12 h-12 p-5">
-        <PrimaryTicker
-          priceData={priceData}
-          primaryTicker={primaryTicker}
-          setBottomState={setBottomState}
-          watchlist={watchlist}
-          setWatchlist={setWatchlist}
+    <Router>
+      <div className="flex flex-wrap">
+        <SignOut showDialog={showSignOut} setShowDialog={setShowSignOut} />
+        <ForgotPassword
+          showDialog={showForgotPassword}
+          setShowDialog={setShowForgotPassword}
         />
-        <Chart data={data} />
-        <Newslist newslist={newslist} />
+        <Reset showDialog={showReset} setShowDialog={setShowReset} />
+        <Authenticate
+          showDialog={showAuth}
+          setShowDialog={setShowAuth}
+          setShowForgotPassword={setShowForgotPassword}
+        />
+        {user ? (
+          <div css={account} onClick={() => setShowSignOut(true)}>
+            <img alt="icon-account" src={accountIcon} />
+          </div>
+        ) : (
+          <div css={account} onClick={() => setShowAuth(true)}>
+            <button onClick={() => setShowAuth(true)}>Sign In</button>
+          </div>
+        )}
+        <div
+          className="w-full lg:w-3/12 xl:w-2/12 lg:h-screen py-5 px-2 shadow-md"
+          css={sidebar}
+        >
+          <SearchField setPrimaryTicker={setPrimaryTicker} />
+          <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} />
+        </div>
+        <div className="flex flex-col items-center w-full lg:w-9/12 xl:w-10/12 h-12 p-5">
+          <PrimaryTicker
+            priceData={priceData}
+            primaryTicker={primaryTicker}
+            setBottomState={setBottomState}
+            watchlist={watchlist}
+            setWatchlist={setWatchlist}
+          />
+          <Chart data={data} />
+          <Newslist newslist={newslist} />
+        </div>
       </div>
-    </div>
+    </Router>
   );
 }
 

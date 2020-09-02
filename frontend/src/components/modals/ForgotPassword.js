@@ -2,10 +2,9 @@
 import { css, jsx } from "@emotion/core";
 import { useState } from "react";
 import { postForm } from "../../lib/form";
-import Cookies from "js-cookie";
 
 import Modal from "./Modal";
-import { ModalHeaderAuth } from "./ModalHeader";
+import { ModalHeaderBasic } from "./ModalHeader";
 
 const inputText = css`
   font-size: 16px;
@@ -50,31 +49,25 @@ const buttonWrapper = css`
   color: black;
 `;
 
-const LogIn = function ({
-  showDialog,
-  setShowDialog,
-  setShowForgotPassword,
-  hasAccount,
-  setHasAccount,
-}) {
+const Reset = function ({ showDialog, setShowDialog }) {
   let [email, setEmail] = useState("");
-  let [password, setPassword] = useState("");
   let [submitting, setSubmitting] = useState(false);
-  let submittable = email !== "";
 
   let handleSubmit = function (ev) {
     ev.preventDefault();
     setSubmitting(true);
-    postForm("http://localhost:6969/api/user/login", {
-      body: JSON.stringify({ email, password }),
+    postForm("http://localhost:6969/api/user/forgot-password", {
+      body: JSON.stringify({ email }),
     })
       .then(({ resp, json }) => {
-        console.log("resp: ", resp.status);
         if (resp.status === 200) {
-          Cookies.set("user", json);
-          setShowDialog(false);
-        } else if (resp.status === 401) {
-          window.alert(json);
+          window.alert(
+            "We have sent you your reset instructions to your email address. Please also check your spam folder"
+          );
+        } else if (resp.status === 404) {
+          window.alert(
+            "We do not have an account associated with this email address. Create account instead!"
+          );
         } else {
           window.alert("Whoops, there was an error. Please try again.");
         }
@@ -86,20 +79,18 @@ const LogIn = function ({
 
   return (
     <Modal
-      title="Log In"
       showDialog={showDialog}
       modalHeader={
-        <ModalHeaderAuth
-          title="Log In"
-          hasAccount={hasAccount}
-          setHasAccount={setHasAccount}
+        <ModalHeaderBasic
           setShowDialog={setShowDialog}
+          title="Recover Password"
         />
       }
     >
       <form css={modalWrapper} onSubmit={(ev) => handleSubmit(ev)}>
+        <div>Don't worry, it happens to the best of us.</div>
         <label htmlFor="email" css={inputText}>
-          Email
+          Your Email
         </label>
         <input
           type="email"
@@ -112,38 +103,12 @@ const LogIn = function ({
           aria-label="Email"
           css={input}
         />
-        <label htmlFor="password" css={inputText}>
-          Password
-        </label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          required
-          value={password}
-          placeholder="Password"
-          onChange={(ev) => setPassword(ev.target.value)}
-          aria-label="Password"
-          css={input}
-        />
         <div css={buttonWrapper}>
-          <button disabled={!submittable || submitting} type="submit">
-            {submitting ? "Logging in…" : "Log In"}
-          </button>
-        </div>
-        <div css={buttonWrapper}>
-          <button
-            onClick={() => {
-              setShowDialog(false);
-              setShowForgotPassword(true);
-            }}
-          >
-            Forgot Password?
-          </button>
+          <button type="submit">Email me a recovery link</button>
         </div>
       </form>
     </Modal>
   );
 };
 
-export default LogIn;
+export default Reset;

@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Redirect, useHistory } from "react-router-dom";
 import { postForm } from "../../lib/form";
 
 import Modal from "./Modal";
@@ -50,32 +51,31 @@ const buttonWrapper = css`
 `;
 
 const Reset = function ({ showDialog, setShowDialog }) {
-  let [email, setEmail] = useState("");
+  let [password, setPassword] = useState("");
   let [submitting, setSubmitting] = useState(false);
+  let [redirect, setRedirect] = useState(false);
+  let queryString = useState(window.location.search);
+  let history = useHistory();
 
   let handleSubmit = function (ev) {
     ev.preventDefault();
     setSubmitting(true);
-    postForm("http://localhost:6969/api/user/reset", {
-      body: JSON.stringify({ email }),
+    postForm("http://localhost:6969/api/user/reset-password", {
+      body: JSON.stringify({ queryString, password }),
     })
       .then(({ resp, json }) => {
-        console.log("resp: ", resp);
-        console.log("json: ", json);
-        if (resp.status === 200) {
-          window.alert(
-            "We have sent you your password reset instructions to your email address. Please also check your spam folder"
-          );
-        } else if (resp.status === 404) {
-          window.alert(
-            "We do not have an account associated with this email address. Create account instead!"
-          );
-        } else {
-          window.alert("Whoops, there was an error. Please try again.");
+        if (resp?.status === 201) {
+          setShowDialog(false);
+          setRedirect(true);
+        }
+        if (resp?.status === 500) {
+          alert("Reset token invalid, try requesting a new reset link");
         }
       })
       .finally(() => {
         setSubmitting(false);
+        history.push("/");
+        setRedirect(true);
       });
   };
 
@@ -83,28 +83,32 @@ const Reset = function ({ showDialog, setShowDialog }) {
     <Modal
       showDialog={showDialog}
       modalHeader={
-        <ModalHeaderBasic setShowDialog={setShowDialog} title="Sign Out" />
+        <ModalHeaderBasic
+          setShowDialog={setShowDialog}
+          title="Reset Password"
+        />
       }
     >
       <form css={modalWrapper} onSubmit={(ev) => handleSubmit(ev)}>
-        <label htmlFor="email" css={inputText}>
-          Email
+        <label htmlFor="password" css={inputText}>
+          Create a new password
         </label>
         <input
-          type="email"
-          id="email"
-          name="email"
+          type="password"
+          id="password"
+          name="password"
           required
-          value={email}
-          placeholder="Email"
-          onChange={(ev) => setEmail(ev.target.value)}
-          aria-label="Email"
+          value={password}
+          placeholder="Password"
+          onChange={(ev) => setPassword(ev.target.value)}
+          aria-label="Password"
           css={input}
         />
         <div css={buttonWrapper}>
           <button type="submit">Reset Password</button>
         </div>
       </form>
+      {redirect && <Redirect push to="http://www.google.com/" />}
     </Modal>
   );
 };
