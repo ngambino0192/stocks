@@ -109,9 +109,7 @@ app.post("/api/user/forgot-password", async (req, res) => {
       const mailOptions = {
         from: SMTP_FROM,
         to: email,
-        viewEngine: "handlebars",
-        viewPath: "./services/nodemailer/reset.hbs",
-        subject: "Password Reset",
+        subject: "Your Password Reset Link",
         html: `<!DOCTYPE html>
         <html>
           <head>
