@@ -3,71 +3,88 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+const {
+  SALT_ROUNDS,
+  HASH_ALGO,
+  JWT_SECRET_KEY,
+  SMTP_FROM,
+  SMTP_PASS,
+  SMTP_SERVICE_PROVIDER,
+} = process.env;
+
+const router = express.Router();
 
 const database = require("../services/postgres");
 const User = require("../services/postgres/User");
 
-const { SALT_ROUNDS, JWT_SECRET_KEY, SMTP_FROM, SMTP_PASS } = process.env;
-
 const jwtExpirySeconds = 300;
-const router = express.Router();
 
 router.post("/create", async (req, res) => {
-  await database.sync();
-  const { username, email, password } = req.body;
   try {
-    const hash = await bcrypt.hash(password, parseInt(SALT_ROUNDS));
-    const existingUser = await User.findOne({ where: { email } });
-    if (existingUser) {
-      res.json("A user was already created with that email address");
-    } else {
-      const user = await User.create({
-        username,
-        email,
-        password: hash,
-        validated: false,
-      });
-      res.json(user);
+    await database.sync();
+    const { username, email, password } = req.body;
+    try {
+      const hash = await bcrypt.hash(password, parseInt(SALT_ROUNDS));
+      const existingUser = await User.findOne({ where: { email } });
+      if (existingUser) {
+        res.status(400).json({
+          message: "A user was already created with that email address",
+        });
+      } else {
+        const user = await User.create({
+          username,
+          email,
+          password: hash,
+          validated: false,
+        });
+        res.status(201).json({ message: `User Created: ${user}` });
+      }
+    } catch (err) {
+      res
+        .status(400)
+        .json({ message: `An error occurred during registration: ${err}` });
     }
   } catch (err) {
-    res.json(`an error occurred during registration: ${err}`);
+    res.status(500).json({ message: `Server Error: ${err}` });
   }
 });
 
 router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
   try {
+    const { email, password } = req.body;
     const user = await User.findOne({
       where: {
         email,
       },
     });
     const validated = await bcrypt.compare(password, user.password);
-    if (validated) {
+    if (user && validated) {
       let { id, username, email } = user;
-
       const token = jwt.sign({ username }, JWT_SECRET_KEY, {
-        algorithm: "HS256",
+        algorithm: HASH_ALGO,
         expiresIn: jwtExpirySeconds,
       });
-
       res.cookie("token", token, {
         maxAge: jwtExpirySeconds * 1000,
         httpOnly: false,
       });
-
       res.status(200).json({ token, user: { id, username, email } });
     } else {
-      res.status(401).json("Incorrect Password");
+      if (!user) {
+        res.status(404).json({ message: "Invalid user" });
+      }
+      if (!password) {
+        res.status(401).json({ message: "Invalid Password" });
+      }
     }
   } catch (err) {
-    res.json("an error occurred during login: ", err);
+    res.status(500).json({ message: `Server Error: ${err}` });
   }
 });
 
 router.post("/forgot-password", async (req, res) => {
-  const { email } = req.body;
   try {
+    const { email } = req.body;
     const user = await User.findOne({
       where: {
         email,
@@ -76,11 +93,11 @@ router.post("/forgot-password", async (req, res) => {
     if (user) {
       const { username, email, password } = user;
       const token = jwt.sign({ password }, JWT_SECRET_KEY, {
-        algorithm: "HS256",
+        algorithm: HASH_ALGO,
         expiresIn: jwtExpirySeconds,
       });
       const transporter = nodemailer.createTransport({
-        service: "gmail",
+        service: SMTP_SERVICE_PROVIDER,
         auth: {
           user: SMTP_FROM,
           pass: SMTP_PASS,
@@ -91,47 +108,45 @@ router.post("/forgot-password", async (req, res) => {
         to: email,
         subject: "Your Password Reset Link",
         html: `<!DOCTYPE html>
-          <html>
-            <head>
-              <title>Forget Password Email</title>
-            </head>
-          
-            <body>
-              <div>
-                <h3>Dear ${username},</h3>
-                <p>
-                  You requested for a password reset, kindly use this
-                  <a href="http://localhost:3000?${token}&${email}">link</a> to reset your password
-                </p>
-                <br />
-                <p>Cheers!</p>
-              </div>
-            </body>
-          </html>`,
+            <html>
+              <head>
+                <title>Forgot Password Email</title>
+              </head>
+              <body>
+                <div>
+                  <h3>Dear ${username},</h3>
+                  <h4>
+                    You requested for a password reset, kindly use this
+                    <a href="http://localhost:3000?${token}&${email}">link</a> to reset your password
+                  </h4>
+                </div>
+              </body>
+            </html>`,
       };
       transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
-          console.log(error);
+          res.status(500).json({ message: "Error sending email" });
         } else {
-          console.log("Email sent: " + info.response);
+          res.status(200).json({ message: "Email sent: " + info.response });
         }
       });
-      res.status(200).json({ user: email });
     } else {
-      res.status(404).json("email does not exist");
+      res.status(404).json({
+        message:
+          "no user associated to that email address. Create account instead!",
+      });
     }
   } catch (err) {
-    res.json("an error occurred during reset process: ", err);
+    res.status(500).json({ message: `Server Error: ${err}` });
   }
 });
 
 router.post("/reset-password", async (req, res) => {
-  const { queryString, password } = req.body;
-  let str = queryString[0].split("?")[1].split("&");
-  let token = str[0];
-  let email = str[1];
-
   try {
+    const { queryString, password } = req.body;
+    let str = queryString[0].split("?")[1].split("&");
+    let token = str[0];
+    let email = str[1];
     const user = await User.findOne({
       where: {
         email,
@@ -151,11 +166,15 @@ router.post("/reset-password", async (req, res) => {
         );
         res.status(201).json({ message: "Password Updated" });
       } else {
-        res.status(500).json({ message: "Server Error" });
+        res.status(500).json({ message: "Unable to update password" });
       }
+    } else {
+      res
+        .status(404)
+        .json({ message: "No user found associated to email address." });
     }
   } catch (err) {
-    res.json("no user found", err);
+    res.status(500).json({ message: `Server Error: ${err}` });
   }
 });
 

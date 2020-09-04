@@ -60,15 +60,17 @@ const Reset = function ({ showDialog, setShowDialog }) {
   let handleSubmit = function (ev) {
     ev.preventDefault();
     setSubmitting(true);
+
     postForm("http://localhost:6969/api/user/reset-password", {
       body: JSON.stringify({ queryString, password }),
     })
       .then(({ resp, json }) => {
-        if (resp?.status === 201) {
+        console.log(resp);
+        if (resp.status === 201) {
           setShowDialog(false);
           setRedirect(true);
         }
-        if (resp?.status === 500) {
+        if (resp.status === 500) {
           alert("Reset token invalid, try requesting a new reset link");
         }
       })

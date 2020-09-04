@@ -1,8 +1,6 @@
 export const VALIDATION_FAILURE_HTTP_CODE = 422;
 export const HTTP_SUCCESS = 200;
 export let fetchJson = (url, opts = {}) => {
-  console.log(url);
-  console.log(opts);
   let defaultOpts = {
     method: "GET",
     credentials: "same-origin",
