@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { postForm } from "../../lib/form";
 

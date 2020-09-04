@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { css, jsx } from "@emotion/core";
 import Cookies from "js-cookie";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import accountIcon from "./icons/account-white.svg";
 
