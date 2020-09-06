@@ -78,7 +78,7 @@ router.get("/quote/:symbol", async (req, res) => {
   }
 });
 
-// get info fortune 500
+// get info for banner
 // TODO: cache results (redis?) to prevent excessive api calls on production
 router.get("/promo", async (req, res) => {
   try {
