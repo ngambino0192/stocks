@@ -1,7 +1,9 @@
 require("dotenv").config();
 const express = require("express");
 const axios = require("axios");
-const { FINNHUB_TOKEN } = process.env;
+const iex = require("iexcloud_api_wrapper");
+const fortune500 = require("../static/fortune500");
+const { FINNHUB_TOKEN, IEX_TOKEN } = process.env;
 
 const router = express.Router();
 
@@ -71,6 +73,45 @@ router.get("/quote/:symbol", async (req, res) => {
     );
     let { data } = response;
     res.status(200).json(data);
+  } catch (err) {
+    res.status(500).json({ message: `Server Error: ${err}` });
+  }
+});
+
+// get info fortune 500
+// TODO: cache results (redis?) to prevent excessive api calls on production
+router.get("/promo", async (req, res) => {
+  try {
+    const gainers = await iex.list("gainers");
+    const losers = await iex.list("losers");
+    const mostactive = await iex.list("mostactive");
+    const volume = await iex.list("iexvolume");
+    const percent = await iex.list("iexpercent");
+
+    let collection = [
+      ...gainers,
+      ...losers,
+      ...mostactive,
+      ...volume,
+      ...percent,
+    ];
+
+    let hashmap = {};
+
+    collection.forEach((item) => {
+      let symbol = item.symbol;
+      if (!hashmap[symbol]) {
+        hashmap[symbol] = item;
+      }
+    });
+
+    let response = [];
+
+    for (let key in hashmap) {
+      response.push(hashmap[key]);
+    }
+
+    res.status(200).json(response);
   } catch (err) {
     res.status(500).json({ message: `Server Error: ${err}` });
   }
