@@ -6,6 +6,8 @@ import { postForm } from "../../lib/form";
 import Modal from "./Modal";
 import { ModalHeaderBasic } from "./ModalHeader";
 
+const { REACT_APP_API_HOST } = process.env;
+
 const inputText = css`
   font-size: 16px;
   font-weight: 500px;
@@ -56,7 +58,7 @@ const Reset = function ({ showDialog, setShowDialog }) {
   let handleSubmit = function (ev) {
     ev.preventDefault();
     setSubmitting(true);
-    postForm("http://localhost:6969/api/user/forgot-password", {
+    postForm(`${REACT_APP_API_HOST}/api/user/forgot-password`, {
       body: JSON.stringify({ email }),
     })
       .then(({ resp, json }) => {

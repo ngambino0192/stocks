@@ -7,6 +7,8 @@ import Cookies from "js-cookie";
 import Modal from "./Modal";
 import { ModalHeaderAuth } from "./ModalHeader";
 
+const { REACT_APP_API_HOST } = process.env;
+
 const inputText = css`
   font-size: 16px;
   font-weight: 500px;
@@ -61,7 +63,7 @@ const SignIn = function ({ showDialog, setShowDialog, setHasAccount }) {
   let handleSubmit = function (ev) {
     ev.preventDefault();
     setSubmitting(true);
-    postForm("http://localhost:6969/api/user/create", {
+    postForm(`${REACT_APP_API_HOST}/api/user/create`, {
       body: JSON.stringify({ username, email, password }),
     })
       .then(({ resp, json }) => {

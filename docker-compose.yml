@@ -26,6 +26,7 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
     stdin_open: true
+    env_file: .env
     volumes:
       - "./frontend:/home/frontend"
       - "frontend_node_modules:/home/frontend/node_modules"

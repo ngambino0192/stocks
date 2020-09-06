@@ -7,6 +7,8 @@ import { postForm } from "../../lib/form";
 import Modal from "./Modal";
 import { ModalHeaderBasic } from "./ModalHeader";
 
+const { REACT_APP_API_HOST } = process.env;
+
 const inputText = css`
   font-size: 16px;
   font-weight: 500px;
@@ -61,7 +63,7 @@ const Reset = function ({ showDialog, setShowDialog }) {
     ev.preventDefault();
     setSubmitting(true);
 
-    postForm("http://localhost:6969/api/user/reset-password", {
+    postForm(`${REACT_APP_API_HOST}/api/user/reset-password`, {
       body: JSON.stringify({ queryString, password }),
     })
       .then(({ resp, json }) => {
@@ -110,7 +112,6 @@ const Reset = function ({ showDialog, setShowDialog }) {
           <button type="submit">Reset Password</button>
         </div>
       </form>
-      {redirect && <Redirect push to="http://www.google.com/" />}
     </Modal>
   );
 };

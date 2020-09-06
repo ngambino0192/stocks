@@ -1,3 +1,4 @@
+const { REACT_APP_API_HOST } = process.env;
 export const updateWatchlist = function (
   watchlist,
   setWatchlist,
@@ -13,7 +14,7 @@ export const updateWatchlist = function (
     if (watchlist.length < watchLimit) {
       const fetchData = async () => {
         const response = await fetch(
-          `http://localhost:6969/api/markets/watchlist/${primaryTicker}`
+          `${REACT_APP_API_HOST}/api/markets/watchlist/${primaryTicker}`
         );
         if (response.status === HTTP_OK) {
           const [json] = await response.json();

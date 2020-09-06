@@ -18,6 +18,7 @@ import Authenticate from "./components/modals/Authenticate";
 import { theme } from "./theme";
 
 const { colors } = theme;
+const { REACT_APP_API_HOST } = process.env;
 
 const sidebar = css`
   background: ${colors.gray200};
@@ -95,7 +96,7 @@ function App() {
     const HTTP_OK = 200;
     const fetchData = async () => {
       let response = await fetch(
-        `http://localhost:6969/api/markets/quote/${primaryTicker}`
+        `${REACT_APP_API_HOST}/api/markets/quote/${primaryTicker}`
       );
       if (response.status === HTTP_OK) {
         let json = await response.json();
@@ -111,7 +112,7 @@ function App() {
     const HTTP_OK = 200;
     const fetchNewslist = async () => {
       let response = await fetch(
-        `http://localhost:6969/api/markets/news/${primaryTicker}`
+        `${REACT_APP_API_HOST}/api/markets/news/${primaryTicker}`
       );
       if (response.status === HTTP_OK) {
         let json = await response.json();
