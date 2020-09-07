@@ -1,10 +1,10 @@
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core";
-import { useState } from "react";
-import Cookies from "js-cookie";
+import { css, jsx } from '@emotion/core';
+import { useState } from 'react';
+import Cookies from 'js-cookie';
 
-import Modal from "./Modal";
-import { ModalHeaderBasic } from "./ModalHeader";
+import Modal from './Modal';
+import { ModalHeaderBasic } from './ModalHeader';
 
 const modalWrapper = css`
   display: flex;
@@ -29,7 +29,7 @@ const SignOut = function ({ showDialog, setShowDialog }) {
   let handleSubmit = function (ev, setShowDialog) {
     ev.preventDefault();
     setSubmitting(true);
-    Cookies.remove("user");
+    Cookies.remove('user');
     setTimeout(() => {
       setSubmitting(false);
       setShowDialog(false);
@@ -43,14 +43,11 @@ const SignOut = function ({ showDialog, setShowDialog }) {
         <ModalHeaderBasic setShowDialog={setShowDialog} title="Sign Out" />
       }
     >
-      <form
-        css={modalWrapper}
-        onSubmit={(ev) => handleSubmit(ev, setShowDialog)}
-      >
+      <form css={modalWrapper} onSubmit={ev => handleSubmit(ev, setShowDialog)}>
         <div>Are you sure you want to sign out?</div>
         <div css={buttonWrapper}>
           <button disabled={submitting} type="submit">
-            {submitting ? "Signing Out…" : "Sign Out"}
+            {submitting ? 'Signing Out…' : 'Sign Out'}
           </button>
         </div>
       </form>

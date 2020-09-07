@@ -1,11 +1,11 @@
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core";
-import { useState } from "react";
-import { postForm } from "../../lib/form";
-import Cookies from "js-cookie";
+import { css, jsx } from '@emotion/core';
+import { useState } from 'react';
+import { postForm } from '../../lib/form';
+import Cookies from 'js-cookie';
 
-import Modal from "./Modal";
-import { ModalHeaderAuth } from "./ModalHeader";
+import Modal from './Modal';
+import { ModalHeaderAuth } from './ModalHeader';
 
 const { REACT_APP_API_HOST } = process.env;
 
@@ -54,11 +54,11 @@ const buttonWrapper = css`
 `;
 
 const SignIn = function ({ showDialog, setShowDialog, setHasAccount }) {
-  let [username, setUsername] = useState("");
-  let [password, setPassword] = useState("");
-  let [email, setEmail] = useState("");
+  let [username, setUsername] = useState('');
+  let [password, setPassword] = useState('');
+  let [email, setEmail] = useState('');
   let [submitting, setSubmitting] = useState(false);
-  let submittable = email !== "";
+  let submittable = email !== '';
 
   let handleSubmit = function (ev) {
     ev.preventDefault();
@@ -68,10 +68,10 @@ const SignIn = function ({ showDialog, setShowDialog, setHasAccount }) {
     })
       .then(({ resp, json }) => {
         if (resp.ok) {
-          Cookies.set("user", json);
+          Cookies.set('user', json);
           setShowDialog(false);
         } else {
-          window.alert("Whoops, there was an error. Please try again.");
+          window.alert('Whoops, there was an error. Please try again.');
         }
       })
       .finally(() => {
@@ -100,7 +100,7 @@ const SignIn = function ({ showDialog, setShowDialog, setHasAccount }) {
           name="user-name"
           required
           value={username}
-          onChange={(ev) => setUsername(ev.target.value)}
+          onChange={ev => setUsername(ev.target.value)}
           aria-label="Username"
           css={input}
         />
@@ -113,7 +113,7 @@ const SignIn = function ({ showDialog, setShowDialog, setHasAccount }) {
           name="email"
           required
           value={email}
-          onChange={(ev) => setEmail(ev.target.value)}
+          onChange={ev => setEmail(ev.target.value)}
           aria-label="Email"
           css={input}
         />
@@ -126,13 +126,13 @@ const SignIn = function ({ showDialog, setShowDialog, setHasAccount }) {
           name="password"
           required
           value={password}
-          onChange={(ev) => setPassword(ev.target.value)}
+          onChange={ev => setPassword(ev.target.value)}
           aria-label="Password"
           css={input}
         />
         <div css={buttonWrapper}>
           <button disabled={!submittable || submitting} type="submit">
-            {submitting ? "Submitting…" : "Sign In"}
+            {submitting ? 'Submitting…' : 'Sign In'}
           </button>
         </div>
       </form>

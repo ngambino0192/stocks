@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import Slider from "react-slick";
-import { css, jsx } from "@emotion/core";
+import Slider from 'react-slick';
+import { css, jsx } from '@emotion/core';
 
 const Newslist = ({ newslist }) => {
   // const settings = {
@@ -32,10 +32,10 @@ const Newslist = ({ newslist }) => {
                 src={image}
               />
               <div className="px-6 py-4">
-                <div className="font-bold text-sm mb-2 lg:text-base">
+                <div className="mb-2 text-sm font-bold lg:text-base">
                   {headline}
                 </div>
-                <p className="text-gray-700 text-sm" css={summaryCSS}>
+                <p className="text-sm text-gray-700" css={summaryCSS}>
                   {summary}
                 </p>
               </div>

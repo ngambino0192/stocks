@@ -1,7 +1,7 @@
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core";
-import { DialogOverlay, DialogContent } from "@reach/dialog";
-import "@reach/dialog/styles.css";
+import { css, jsx } from '@emotion/core';
+import { DialogOverlay, DialogContent } from '@reach/dialog';
+import '@reach/dialog/styles.css';
 
 const contentWrapper = css`
   padding: 20px;
@@ -9,14 +9,14 @@ const contentWrapper = css`
 
 const dialogOverlayStyles = {
   zIndex: 20,
-  background: "rgba(243, 242, 244, 0.5)",
+  background: 'rgba(243, 242, 244, 0.5)',
 };
 
 const dialogContentStyles = {
   padding: 0,
-  boxShadow: "0 2px 20px 0 rgba(0,0,0,0.1)",
+  boxShadow: '0 2px 20px 0 rgba(0,0,0,0.1)',
   borderRadius: 3,
-  backgroundColor: "white",
+  backgroundColor: 'white',
 };
 
 const Modal = function ({ children, showDialog, modalHeader }) {
