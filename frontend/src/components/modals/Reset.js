@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import { useState } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { postForm } from "../../lib/form";
 
 import Modal from "./Modal";
@@ -55,7 +55,6 @@ const buttonWrapper = css`
 const Reset = function ({ showDialog, setShowDialog }) {
   let [password, setPassword] = useState("");
   let [submitting, setSubmitting] = useState(false);
-  let [redirect, setRedirect] = useState(false);
   let queryString = useState(window.location.search);
   let history = useHistory();
 
@@ -70,7 +69,6 @@ const Reset = function ({ showDialog, setShowDialog }) {
         console.log(resp);
         if (resp.status === 201) {
           setShowDialog(false);
-          setRedirect(true);
         }
         if (resp.status === 500) {
           alert("Reset token invalid, try requesting a new reset link");
@@ -79,7 +77,6 @@ const Reset = function ({ showDialog, setShowDialog }) {
       .finally(() => {
         setSubmitting(false);
         history.push("/");
-        setRedirect(true);
       });
   };
 
@@ -109,7 +106,9 @@ const Reset = function ({ showDialog, setShowDialog }) {
           css={input}
         />
         <div css={buttonWrapper}>
-          <button type="submit">Reset Password</button>
+          <button type="submit">
+            {submitting ? "Processing..." : "Reset Password"}
+          </button>
         </div>
       </form>
     </Modal>

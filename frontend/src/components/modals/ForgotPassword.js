@@ -61,7 +61,7 @@ const Reset = function ({ showDialog, setShowDialog }) {
     postForm(`${REACT_APP_API_HOST}/api/user/forgot-password`, {
       body: JSON.stringify({ email }),
     })
-      .then(({ resp, json }) => {
+      .then(({ resp }) => {
         if (resp.status === 200) {
           window.alert(
             "We have sent you your reset instructions to your email address. Please also check your spam folder"
@@ -106,7 +106,9 @@ const Reset = function ({ showDialog, setShowDialog }) {
           css={input}
         />
         <div css={buttonWrapper}>
-          <button type="submit">Email me a recovery link</button>
+          <button type="submit">
+            {submitting ? "Sending..." : "Email me a recovery link"}
+          </button>
         </div>
       </form>
     </Modal>
