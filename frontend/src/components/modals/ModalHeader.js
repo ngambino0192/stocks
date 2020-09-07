@@ -1,9 +1,9 @@
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core";
+import { css, jsx } from '@emotion/core';
 // import { colors } from "../..//lib/theme";
-import "@reach/dialog/styles.css";
+import '@reach/dialog/styles.css';
 
-import closeIcon from "../../icons/close.svg";
+import closeIcon from '../../icons/close.svg';
 
 const modalHeader = css`
   display: flex;

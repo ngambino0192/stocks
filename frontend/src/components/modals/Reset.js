@@ -1,11 +1,11 @@
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core";
-import { useState } from "react";
-import { useHistory } from "react-router-dom";
-import { postForm } from "../../lib/form";
+import { css, jsx } from '@emotion/core';
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { postForm } from '../../lib/form';
 
-import Modal from "./Modal";
-import { ModalHeaderBasic } from "./ModalHeader";
+import Modal from './Modal';
+import { ModalHeaderBasic } from './ModalHeader';
 
 const { REACT_APP_API_HOST } = process.env;
 
@@ -53,7 +53,7 @@ const buttonWrapper = css`
 `;
 
 const Reset = function ({ showDialog, setShowDialog }) {
-  let [password, setPassword] = useState("");
+  let [password, setPassword] = useState('');
   let [submitting, setSubmitting] = useState(false);
   let queryString = useState(window.location.search);
   let history = useHistory();
@@ -65,18 +65,17 @@ const Reset = function ({ showDialog, setShowDialog }) {
     postForm(`${REACT_APP_API_HOST}/api/user/reset-password`, {
       body: JSON.stringify({ queryString, password }),
     })
-      .then(({ resp, json }) => {
-        console.log(resp);
+      .then(({ resp }) => {
         if (resp.status === 201) {
           setShowDialog(false);
         }
         if (resp.status === 500) {
-          alert("Reset token invalid, try requesting a new reset link");
+          alert('Reset token invalid, try requesting a new reset link');
         }
       })
       .finally(() => {
         setSubmitting(false);
-        history.push("/");
+        history.push('/');
       });
   };
 
@@ -90,7 +89,7 @@ const Reset = function ({ showDialog, setShowDialog }) {
         />
       }
     >
-      <form css={modalWrapper} onSubmit={(ev) => handleSubmit(ev)}>
+      <form css={modalWrapper} onSubmit={ev => handleSubmit(ev)}>
         <label htmlFor="password" css={inputText}>
           Create a new password
         </label>
@@ -101,13 +100,13 @@ const Reset = function ({ showDialog, setShowDialog }) {
           required
           value={password}
           placeholder="Password"
-          onChange={(ev) => setPassword(ev.target.value)}
+          onChange={ev => setPassword(ev.target.value)}
           aria-label="Password"
           css={input}
         />
         <div css={buttonWrapper}>
           <button type="submit">
-            {submitting ? "Processing..." : "Reset Password"}
+            {submitting ? 'Processing...' : 'Reset Password'}
           </button>
         </div>
       </form>

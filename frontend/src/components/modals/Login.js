@@ -1,11 +1,11 @@
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core";
-import { useState } from "react";
-import { postForm } from "../../lib/form";
-import Cookies from "js-cookie";
+import { css, jsx } from '@emotion/core';
+import { useState } from 'react';
+import { postForm } from '../../lib/form';
+import Cookies from 'js-cookie';
 
-import Modal from "./Modal";
-import { ModalHeaderAuth } from "./ModalHeader";
+import Modal from './Modal';
+import { ModalHeaderAuth } from './ModalHeader';
 
 const { REACT_APP_API_HOST } = process.env;
 
@@ -59,10 +59,10 @@ const LogIn = function ({
   hasAccount,
   setHasAccount,
 }) {
-  let [email, setEmail] = useState("");
-  let [password, setPassword] = useState("");
+  let [email, setEmail] = useState('');
+  let [password, setPassword] = useState('');
   let [submitting, setSubmitting] = useState(false);
-  let submittable = email !== "";
+  let submittable = email !== '';
 
   let handleSubmit = function (ev) {
     ev.preventDefault();
@@ -71,14 +71,13 @@ const LogIn = function ({
       body: JSON.stringify({ email, password }),
     })
       .then(({ resp, json }) => {
-        console.log("resp: ", resp.status);
         if (resp.status === 200) {
-          Cookies.set("user", json);
+          Cookies.set('user', json);
           setShowDialog(false);
         } else if (resp.status === 401) {
           window.alert(json);
         } else {
-          window.alert("Whoops, there was an error. Please try again.");
+          window.alert('Whoops, there was an error. Please try again.');
         }
       })
       .finally(() => {
@@ -99,7 +98,7 @@ const LogIn = function ({
         />
       }
     >
-      <form css={modalWrapper} onSubmit={(ev) => handleSubmit(ev)}>
+      <form css={modalWrapper} onSubmit={ev => handleSubmit(ev)}>
         <label htmlFor="email" css={inputText}>
           Email
         </label>
@@ -110,7 +109,7 @@ const LogIn = function ({
           required
           value={email}
           placeholder="Email"
-          onChange={(ev) => setEmail(ev.target.value)}
+          onChange={ev => setEmail(ev.target.value)}
           aria-label="Email"
           css={input}
         />
@@ -124,13 +123,13 @@ const LogIn = function ({
           required
           value={password}
           placeholder="Password"
-          onChange={(ev) => setPassword(ev.target.value)}
+          onChange={ev => setPassword(ev.target.value)}
           aria-label="Password"
           css={input}
         />
         <div css={buttonWrapper}>
           <button disabled={!submittable || submitting} type="submit">
-            {submitting ? "Logging in…" : "Log In"}
+            {submitting ? 'Logging in…' : 'Log In'}
           </button>
         </div>
         <div css={buttonWrapper}>
