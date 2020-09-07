@@ -100,7 +100,17 @@ router.get("/promo", async (req, res) => {
     collection.forEach((item) => {
       let symbol = item.symbol;
       if (!uniqueMarketSymbols[symbol]) {
-        uniqueMarketSymbols[symbol] = item;
+        uniqueMarketSymbols[symbol] = {
+          symbol: item.symbol,
+          companyName: item.companyName,
+          latestTime: item.latestTime,
+          latestPrice: item.latestPrice,
+          high: item.high,
+          low: item.low,
+          change: item.change,
+          changePercent: item.changePercent,
+          isUSMarketOpen: item.isUSMarketOpen,
+        };
       }
     });
 
