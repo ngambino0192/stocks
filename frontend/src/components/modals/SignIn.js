@@ -1,9 +1,13 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import { useState } from "react";
+import { postForm } from "../../lib/form";
+import Cookies from "js-cookie";
 
 import Modal from "./Modal";
 import { ModalHeaderAuth } from "./ModalHeader";
+
+const { REACT_APP_API_HOST } = process.env;
 
 const inputText = css`
   font-size: 16px;
@@ -33,9 +37,11 @@ const input = css`
   margin-top: 10px;
   margin-bottom: 10px;
   outline: none;
+  color: black;
   &:focus {
     border: 2px solid red;
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+    color: black;
   }
 `;
 
@@ -44,6 +50,7 @@ const buttonWrapper = css`
   flex-direction: column;
   align-items: center;
   padding-top: 30px;
+  color: black;
 `;
 
 const SignIn = function ({ showDialog, setShowDialog, setHasAccount }) {
@@ -55,7 +62,21 @@ const SignIn = function ({ showDialog, setShowDialog, setHasAccount }) {
 
   let handleSubmit = function (ev) {
     ev.preventDefault();
-    console.log("SIGN USER IN");
+    setSubmitting(true);
+    postForm(`${REACT_APP_API_HOST}/api/user/create`, {
+      body: JSON.stringify({ username, email, password }),
+    })
+      .then(({ resp, json }) => {
+        if (resp.ok) {
+          Cookies.set("user", json);
+          setShowDialog(false);
+        } else {
+          window.alert("Whoops, there was an error. Please try again.");
+        }
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
   };
 
   return (

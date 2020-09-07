@@ -1,16 +1,13 @@
 import React from "react";
 import { updateWatchlist } from "../lib/utils";
-import { useEffect } from "react";
 
 const PrimaryTicker = ({
   priceData,
   primaryTicker,
-  setBottomState,
   watchlist,
   setWatchlist,
 }) => {
   const handleWatchlist = () => {
-    setBottomState(true);
     if (priceData.c) {
       updateWatchlist(watchlist, setWatchlist, primaryTicker, priceData);
     }

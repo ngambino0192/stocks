@@ -1,6 +1,8 @@
 /** @jsx jsx */
 import { useState, useEffect } from "react";
 import { css, jsx } from "@emotion/core";
+import Cookies from "js-cookie";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import accountIcon from "./icons/account-white.svg";
 
@@ -10,11 +12,13 @@ import SearchField from "./components/SearchField";
 import Watchlist from "./components/Watchlist";
 import Newslist from "./components/Newslist";
 import SignOut from "./components/modals/SignOut";
+import ForgotPassword from "./components/modals/ForgotPassword";
+import Reset from "./components/modals/Reset";
 import Authenticate from "./components/modals/Authenticate";
-import { updateWatchlist } from "./lib/utils";
 import { theme } from "./theme";
 
 const { colors } = theme;
+const { REACT_APP_API_HOST } = process.env;
 
 const sidebar = css`
   background: ${colors.gray200};
@@ -79,15 +83,19 @@ function App() {
   const [newslist, setNewslist] = useState([]);
   const [primaryTicker, setPrimaryTicker] = useState("AAPL");
   const [watchlist, setWatchlist] = useState([]);
-  const [bottomState, setBottomState] = useState(true);
   const [showSignOut, setShowSignOut] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [showReset, setShowReset] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
+  const [queryString] = useState(window.location.search);
+
+  const user = Cookies.get("user");
 
   useEffect(() => {
     const HTTP_OK = 200;
     const fetchData = async () => {
       let response = await fetch(
-        `http://localhost:6969/quote/${primaryTicker}`
+        `${REACT_APP_API_HOST}/api/markets/quote/${primaryTicker}`
       );
       if (response.status === HTTP_OK) {
         let json = await response.json();
@@ -102,7 +110,9 @@ function App() {
   useEffect(() => {
     const HTTP_OK = 200;
     const fetchNewslist = async () => {
-      let response = await fetch(`http://localhost:6969/news/${primaryTicker}`);
+      let response = await fetch(
+        `${REACT_APP_API_HOST}/api/markets/news/${primaryTicker}`
+      );
       if (response.status === HTTP_OK) {
         let json = await response.json();
         setNewslist(json);
@@ -113,39 +123,54 @@ function App() {
     fetchNewslist();
   }, [primaryTicker]);
 
-  const handleWatchlist = function () {
-    setBottomState(true);
-    if (priceData.c) {
-      updateWatchlist(watchlist, setWatchlist, primaryTicker, priceData);
+  useEffect(() => {
+    if (queryString) {
+      setShowReset(true);
     }
-  };
+  }, [queryString]);
 
   return (
-    <div className="flex flex-wrap">
-      <SignOut showDialog={showSignOut} setShowDialog={setShowSignOut} />
-      <Authenticate showDialog={showAuth} setShowDialog={setShowAuth} />
-      <div css={account} onClick={() => setShowAuth(true)}>
-        <img src={accountIcon} />
-      </div>
-      <div
-        className="w-full lg:w-3/12 xl:w-2/12 lg:h-screen py-5 px-2 shadow-md"
-        css={sidebar}
-      >
-        <SearchField setPrimaryTicker={setPrimaryTicker} />
-        <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} />
-      </div>
-      <div className="flex flex-col items-center w-full lg:w-9/12 xl:w-10/12 h-12 p-5">
-        <PrimaryTicker
-          priceData={priceData}
-          primaryTicker={primaryTicker}
-          setBottomState={setBottomState}
-          watchlist={watchlist}
-          setWatchlist={setWatchlist}
+    <Router>
+      <div className="flex flex-wrap">
+        <SignOut showDialog={showSignOut} setShowDialog={setShowSignOut} />
+        <ForgotPassword
+          showDialog={showForgotPassword}
+          setShowDialog={setShowForgotPassword}
         />
-        <Chart data={data} />
-        <Newslist newslist={newslist} />
+        <Reset showDialog={showReset} setShowDialog={setShowReset} />
+        <Authenticate
+          showDialog={showAuth}
+          setShowDialog={setShowAuth}
+          setShowForgotPassword={setShowForgotPassword}
+        />
+        {user ? (
+          <div css={account} onClick={() => setShowSignOut(true)}>
+            <img alt="icon-account" src={accountIcon} />
+          </div>
+        ) : (
+          <div css={account} onClick={() => setShowAuth(true)}>
+            <button onClick={() => setShowAuth(true)}>Sign In</button>
+          </div>
+        )}
+        <div
+          className="w-full lg:w-3/12 xl:w-2/12 lg:h-screen py-5 px-2 shadow-md"
+          css={sidebar}
+        >
+          <SearchField setPrimaryTicker={setPrimaryTicker} />
+          <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} />
+        </div>
+        <div className="flex flex-col items-center w-full lg:w-9/12 xl:w-10/12 h-12 p-5">
+          <PrimaryTicker
+            priceData={priceData}
+            primaryTicker={primaryTicker}
+            watchlist={watchlist}
+            setWatchlist={setWatchlist}
+          />
+          <Chart data={data} />
+          <Newslist newslist={newslist} />
+        </div>
       </div>
-    </div>
+    </Router>
   );
 }
 

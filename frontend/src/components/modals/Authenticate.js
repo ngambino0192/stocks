@@ -3,7 +3,11 @@ import React, { useState } from "react";
 import Login from "./Login";
 import SignIn from "./SignIn";
 
-const Authenticate = function ({ showDialog, setShowDialog }) {
+const Authenticate = function ({
+  showDialog,
+  setShowDialog,
+  setShowForgotPassword,
+}) {
   const [hasAccount, setHasAccount] = useState(true);
 
   if (hasAccount) {
@@ -13,6 +17,7 @@ const Authenticate = function ({ showDialog, setShowDialog }) {
         setShowDialog={setShowDialog}
         hasAccount={hasAccount}
         setHasAccount={setHasAccount}
+        setShowForgotPassword={setShowForgotPassword}
       />
     );
   } else {

@@ -11,6 +11,7 @@ const modalWrapper = css`
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  color: black;
 `;
 
 const buttonWrapper = css`
@@ -19,6 +20,7 @@ const buttonWrapper = css`
   align-items: center;
   width: 50%;
   padding: 20px;
+  color: black;
 `;
 
 const SignOut = function ({ showDialog, setShowDialog }) {

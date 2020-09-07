@@ -1,11 +1,11 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { postForm } from "../../lib/form";
-import Cookies from "js-cookie";
 
 import Modal from "./Modal";
-import { ModalHeaderAuth } from "./ModalHeader";
+import { ModalHeaderBasic } from "./ModalHeader";
 
 const { REACT_APP_API_HOST } = process.env;
 
@@ -52,70 +52,47 @@ const buttonWrapper = css`
   color: black;
 `;
 
-const LogIn = function ({
-  showDialog,
-  setShowDialog,
-  setShowForgotPassword,
-  hasAccount,
-  setHasAccount,
-}) {
-  let [email, setEmail] = useState("");
+const Reset = function ({ showDialog, setShowDialog }) {
   let [password, setPassword] = useState("");
   let [submitting, setSubmitting] = useState(false);
-  let submittable = email !== "";
+  let queryString = useState(window.location.search);
+  let history = useHistory();
 
   let handleSubmit = function (ev) {
     ev.preventDefault();
     setSubmitting(true);
-    postForm(`${REACT_APP_API_HOST}/api/user/login`, {
-      body: JSON.stringify({ email, password }),
+
+    postForm(`${REACT_APP_API_HOST}/api/user/reset-password`, {
+      body: JSON.stringify({ queryString, password }),
     })
       .then(({ resp, json }) => {
-        console.log("resp: ", resp.status);
-        if (resp.status === 200) {
-          Cookies.set("user", json);
+        console.log(resp);
+        if (resp.status === 201) {
           setShowDialog(false);
-        } else if (resp.status === 401) {
-          window.alert(json);
-        } else {
-          window.alert("Whoops, there was an error. Please try again.");
+        }
+        if (resp.status === 500) {
+          alert("Reset token invalid, try requesting a new reset link");
         }
       })
       .finally(() => {
         setSubmitting(false);
+        history.push("/");
       });
   };
 
   return (
     <Modal
-      title="Log In"
       showDialog={showDialog}
       modalHeader={
-        <ModalHeaderAuth
-          title="Log In"
-          hasAccount={hasAccount}
-          setHasAccount={setHasAccount}
+        <ModalHeaderBasic
           setShowDialog={setShowDialog}
+          title="Reset Password"
         />
       }
     >
       <form css={modalWrapper} onSubmit={(ev) => handleSubmit(ev)}>
-        <label htmlFor="email" css={inputText}>
-          Email
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          required
-          value={email}
-          placeholder="Email"
-          onChange={(ev) => setEmail(ev.target.value)}
-          aria-label="Email"
-          css={input}
-        />
         <label htmlFor="password" css={inputText}>
-          Password
+          Create a new password
         </label>
         <input
           type="password"
@@ -129,18 +106,8 @@ const LogIn = function ({
           css={input}
         />
         <div css={buttonWrapper}>
-          <button disabled={!submittable || submitting} type="submit">
-            {submitting ? "Logging in…" : "Log In"}
-          </button>
-        </div>
-        <div css={buttonWrapper}>
-          <button
-            onClick={() => {
-              setShowDialog(false);
-              setShowForgotPassword(true);
-            }}
-          >
-            Forgot Password?
+          <button type="submit">
+            {submitting ? "Processing..." : "Reset Password"}
           </button>
         </div>
       </form>
@@ -148,4 +115,4 @@ const LogIn = function ({
   );
 };
 
-export default LogIn;
+export default Reset;
