@@ -95,19 +95,19 @@ router.get("/promo", async (req, res) => {
       ...percent,
     ];
 
-    let hashmap = {};
+    let uniqueMarketSymbols = {};
 
     collection.forEach((item) => {
       let symbol = item.symbol;
-      if (!hashmap[symbol]) {
-        hashmap[symbol] = item;
+      if (!uniqueMarketSymbols[symbol]) {
+        uniqueMarketSymbols[symbol] = item;
       }
     });
 
     let response = [];
 
-    for (let key in hashmap) {
-      response.push(hashmap[key]);
+    for (let key in uniqueMarketSymbols) {
+      response.push(uniqueMarketSymbols[key]);
     }
 
     res.status(200).json(response);
