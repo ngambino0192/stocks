@@ -83,7 +83,6 @@ function App() {
   const [newslist, setNewslist] = useState([]);
   const [primaryTicker, setPrimaryTicker] = useState("AAPL");
   const [watchlist, setWatchlist] = useState([]);
-  const [, setBottomState] = useState(true);
   const [showSignOut, setShowSignOut] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [showReset, setShowReset] = useState(false);
@@ -164,7 +163,6 @@ function App() {
           <PrimaryTicker
             priceData={priceData}
             primaryTicker={primaryTicker}
-            setBottomState={setBottomState}
             watchlist={watchlist}
             setWatchlist={setWatchlist}
           />

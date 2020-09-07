@@ -4,12 +4,10 @@ import { updateWatchlist } from "../lib/utils";
 const PrimaryTicker = ({
   priceData,
   primaryTicker,
-  setBottomState,
   watchlist,
   setWatchlist,
 }) => {
   const handleWatchlist = () => {
-    setBottomState(true);
     if (priceData.c) {
       updateWatchlist(watchlist, setWatchlist, primaryTicker, priceData);
     }
