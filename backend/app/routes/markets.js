@@ -126,4 +126,15 @@ router.get("/promo", async (req, res) => {
   }
 });
 
+router.get("/history/:symbol/:period", async (req, res) => {
+  try {
+    const { symbol, period } = req.params;
+    const hData = await iex.history(symbol, { period });
+
+    res.status(200).json(hData);
+  } catch (err) {
+    res.status(500).json({ message: `Server Error: ${err}` });
+  }
+});
+
 module.exports = router;
