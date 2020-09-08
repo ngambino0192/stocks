@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { jsx } from '@emotion/core';
 import { useState } from 'react';
 import { postForm } from '../../lib/form';
 import Cookies from 'js-cookie';
@@ -74,7 +74,7 @@ const SignIn = function ({ showDialog, setShowDialog, setHasAccount }) {
           onChange={(ev) => setEmail(ev.target.value)}
           aria-label="Email"
           css={input}
-          placeholder="housestark@winterfellmail.com"
+          placeholder="housestark@wintermail.com"
         />
         <label htmlFor="password" css={inputText}>
           Create Password

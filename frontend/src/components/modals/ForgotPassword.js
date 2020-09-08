@@ -1,5 +1,6 @@
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { jsx } from '@emotion/core';
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { postForm } from '../../lib/form';
 
@@ -43,7 +44,7 @@ const Reset = function ({ showDialog, setShowDialog }) {
       modalHeader={<ModalHeaderBasic setShowDialog={setShowDialog} title="Recover Password" />}
     >
       <form css={modalWrapper} onSubmit={(ev) => handleSubmit(ev)}>
-        <div>Don't worry, it happens to the best of us.</div>
+        <h3 className="forgot-subtitle">Don't worry, it happens to the best of us.</h3>
         <label htmlFor="email" css={inputText}>
           Your Email
         </label>
@@ -59,7 +60,9 @@ const Reset = function ({ showDialog, setShowDialog }) {
           css={input}
         />
         <div css={buttonWrapper}>
-          <button type="submit">{submitting ? 'Sending...' : 'Email me a recovery link'}</button>
+          <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} type="submit">
+            {submitting ? 'Sending...' : 'Email me a recovery link'}
+          </motion.button>
         </div>
       </form>
     </Modal>

@@ -1,16 +1,16 @@
-import { css, jsx } from '@emotion/core';
+import { css } from '@emotion/core';
 import { theme } from '../../theme';
 const { colors } = theme;
 
 /********* MAIN MODAL BEGIN **********/
 export const dialogOverlayStyles = {
   zIndex: 20,
-  background: 'rgba(12, 12, 12, 0.75)',
+  background: 'rgba(0, 0, 0, 0.8)',
 };
 
 export const dialogContentStyles = {
   padding: 0,
-  boxShadow: '0 2px 20px 0 rgba(0,0,0,0.1)',
+  boxShadow: '0 2px 20px 0 rgba(0,0,0,0.5)',
   borderRadius: 3,
 };
 
@@ -92,6 +92,7 @@ export const titleItem = css`
 `;
 /********* MODAL HEADER END **********/
 
+/********* INNER MODAL CONTENT BEGIN **********/
 export const inputText = css`
   font-size: 16px;
   font-weight: 500px;
@@ -104,6 +105,12 @@ export const modalWrapper = css`
   display: flex;
   flex-direction: column;
   padding: 20px;
+
+  .forgot-subtitle {
+    text-align: center;
+    font-size: 16px;
+    padding: 20px 0px;
+  }
 `;
 
 export const input = css`
@@ -141,3 +148,4 @@ export const buttonWrapper = css`
     margin-top: 12px;
   }
 `;
+/********* INNER MODAL CONTENT END **********/

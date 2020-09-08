@@ -1,5 +1,6 @@
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { jsx } from '@emotion/core';
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Cookies from 'js-cookie';
 
@@ -28,13 +29,14 @@ const SignOut = function ({ showDialog, setShowDialog }) {
       <form css={modalWrapper} onSubmit={(ev) => handleSubmit(ev, setShowDialog)}>
         <div>Are you sure you want to sign out?</div>
         <div css={buttonWrapper}>
-          <button
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             disabled={submitting}
             type="submit"
-            class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:bg-gray-800"
           >
             {submitting ? 'Signing Out…' : 'Sign Out'}
-          </button>
+          </motion.button>
         </div>
       </form>
     </Modal>
