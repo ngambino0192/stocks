@@ -1,77 +1,34 @@
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core";
-import { useState } from "react";
-import { postForm } from "../../lib/form";
-import Cookies from "js-cookie";
+import { css, jsx } from '@emotion/core';
+import { useState } from 'react';
+import { postForm } from '../../lib/form';
+import Cookies from 'js-cookie';
 
-import Modal from "./Modal";
-import { ModalHeaderAuth } from "./ModalHeader";
+import Modal from './Modal';
+import { ModalHeaderAuth } from './ModalHeader';
+import { modalWrapper, input, inputText, buttonWrapper } from './styles';
 
 const { REACT_APP_API_HOST } = process.env;
 
-const inputText = css`
-  font-size: 16px;
-  font-weight: 500px;
-  letter-spacing: 0;
-  line-height: 20px;
-  color: black;
-`;
-
-const modalWrapper = css`
-  display: flex;
-  flex-direction: column;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: 20px;
-`;
-
-const input = css`
-  -webkit-appearance: none;
-  border: 1px solid black;
-  background-color: white;
-  border-radius: 3px;
-  line-height: 20px;
-  padding: 12px 24px;
-  font-weight: bold;
-  font-size: 16px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  outline: none;
-  color: black;
-  &:focus {
-    border: 2px solid red;
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
-    color: black;
-  }
-`;
-
-const buttonWrapper = css`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 30px;
-  color: black;
-`;
-
 const SignIn = function ({ showDialog, setShowDialog, setHasAccount }) {
-  let [username, setUsername] = useState("");
-  let [password, setPassword] = useState("");
-  let [email, setEmail] = useState("");
+  let [username, setUsername] = useState('');
+  let [password, setPassword] = useState('');
+  let [email, setEmail] = useState('');
   let [submitting, setSubmitting] = useState(false);
-  let submittable = email !== "";
+  let submittable = email !== '';
 
   let handleSubmit = function (ev) {
     ev.preventDefault();
     setSubmitting(true);
-    postForm(`${REACT_APP_API_HOST}/api/user/create`, {
+    postForm(`${REACT_APP_API_HOST}/user/create`, {
       body: JSON.stringify({ username, email, password }),
     })
       .then(({ resp, json }) => {
         if (resp.ok) {
-          Cookies.set("user", json);
+          Cookies.set('user', json);
           setShowDialog(false);
         } else {
-          window.alert("Whoops, there was an error. Please try again.");
+          window.alert('Whoops, there was an error. Please try again.');
         }
       })
       .finally(() => {
@@ -103,6 +60,7 @@ const SignIn = function ({ showDialog, setShowDialog, setHasAccount }) {
           onChange={(ev) => setUsername(ev.target.value)}
           aria-label="Username"
           css={input}
+          placeholder="housestark"
         />
         <label htmlFor="email" css={inputText}>
           Create Email
@@ -116,6 +74,7 @@ const SignIn = function ({ showDialog, setShowDialog, setHasAccount }) {
           onChange={(ev) => setEmail(ev.target.value)}
           aria-label="Email"
           css={input}
+          placeholder="housestark@winterfellmail.com"
         />
         <label htmlFor="password" css={inputText}>
           Create Password
@@ -129,10 +88,15 @@ const SignIn = function ({ showDialog, setShowDialog, setHasAccount }) {
           onChange={(ev) => setPassword(ev.target.value)}
           aria-label="Password"
           css={input}
+          placeholder="password"
         />
         <div css={buttonWrapper}>
-          <button disabled={!submittable || submitting} type="submit">
-            {submitting ? "Submitting…" : "Sign In"}
+          <button
+            disabled={!submittable || submitting}
+            type="submit"
+            class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:bg-gray-800"
+          >
+            {submitting ? 'Registering…' : 'Register'}
           </button>
         </div>
       </form>
