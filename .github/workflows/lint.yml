@@ -2,10 +2,6 @@ name: Lint
 
 on: push
 
-defaults:
-  run:
-    working-directory: frontend
-
 jobs:
   run-linters:
     name: Run linters
@@ -22,7 +18,8 @@ jobs:
 
       # ESLint and Prettier must be in `package.json`
       - name: Install Node.js dependencies
-        run: cd frontend && yarn install
+        run: yarn install
+        working-directory: ./frontend
 
       - name: Run linters
         uses: wearerequired/lint-action@v1
@@ -31,3 +28,4 @@ jobs:
           # Enable linters
           eslint: true
           prettier: true
+        working-directory: ./frontend
