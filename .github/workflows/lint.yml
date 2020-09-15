@@ -18,9 +18,10 @@ jobs:
 
       # ESLint and Prettier must be in `package.json`
       - name: Install Node.js dependencies
-        run: npm install
+        run: cd frontend yarn install
 
       - name: Run linters
+        working-directory: ./frontend
         uses: wearerequired/lint-action@v1
         with:
           github_token: ${{ secrets.github_token }}
