@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const axios = require("axios");
 const iex = require("iexcloud_api_wrapper");
-const logger = require('../services/winston');
+const logger = require("../services/winston");
 const { FINNHUB_TOKEN } = process.env;
 
 const router = express.Router();

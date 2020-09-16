@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const logger = require('./services/winston')
+const logger = require("./services/winston");
 const { BACKEND_PORT } = process.env;
 
 const app = express();

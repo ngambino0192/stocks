@@ -3,7 +3,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
-const logger = require('../services/winston');
+const logger = require("../services/winston");
 const {
   SALT_ROUNDS,
   HASH_ALGO,
