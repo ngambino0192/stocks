@@ -71,7 +71,6 @@ const LogIn = function ({
       body: JSON.stringify({ email, password }),
     })
       .then(({ resp, json }) => {
-        console.log("resp: ", resp.status);
         if (resp.status === 200) {
           Cookies.set("user", json);
           setShowDialog(false);
