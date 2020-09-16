@@ -1,5 +1,4 @@
 module.exports = {
-    parser: "babel-eslint", // define babel as the parser
     extends: [
         "eslint:recommended",
     ],
