@@ -20,7 +20,8 @@ module.exports = {
     node: true,
   },
   rules: {
-    "no-console": "error",
+    "no-console": "warning",
     "react/prop-types": "off",
+    "tailwind/class-order": "off",
   },
 };
