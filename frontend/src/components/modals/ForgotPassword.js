@@ -90,7 +90,7 @@ const Reset = function ({ showDialog, setShowDialog }) {
       }
     >
       <form css={modalWrapper} onSubmit={(ev) => handleSubmit(ev)}>
-        <div>Don't worry, it happens to the best of us.</div>
+        <div>Don&apos;t worry, it happens to the best of us.</div>
         <label htmlFor="email" css={inputText}>
           Your Email
         </label>
