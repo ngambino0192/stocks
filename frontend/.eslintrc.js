@@ -4,7 +4,6 @@ module.exports = {
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:tailwind/recommended",
-    "prettier",
   ],
   plugins: ["react", "emotion"],
   parserOptions: {
