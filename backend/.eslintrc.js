@@ -1,8 +1,4 @@
 module.exports = {
-    extends: [
-        "eslint:recommended",
-    ],
-    plugins: ["react", "emotion"],
     parserOptions: {
         ecmaVersion: 2020, // understands let, const and other features
     },
