@@ -1,11 +1,11 @@
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { postForm } from '../../lib/form';
+import { css, jsx } from "@emotion/core";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { postForm } from "../../lib/form";
 
-import Modal from './Modal';
-import { ModalHeaderBasic } from './ModalHeader';
+import Modal from "./Modal";
+import { ModalHeaderBasic } from "./ModalHeader";
 
 const { REACT_APP_API_HOST } = process.env;
 
@@ -53,7 +53,7 @@ const buttonWrapper = css`
 `;
 
 const Reset = function ({ showDialog, setShowDialog }) {
-  let [password, setPassword] = useState('');
+  let [password, setPassword] = useState("");
   let [submitting, setSubmitting] = useState(false);
   let queryString = useState(window.location.search);
   let history = useHistory();
@@ -62,7 +62,7 @@ const Reset = function ({ showDialog, setShowDialog }) {
     ev.preventDefault();
     setSubmitting(true);
 
-    postForm(`${REACT_APP_API_HOST}/user/reset-password`, {
+    postForm(`${REACT_APP_API_HOST}/api/user/reset-password`, {
       body: JSON.stringify({ queryString, password }),
     })
       .then(({ resp, json }) => {
@@ -71,19 +71,24 @@ const Reset = function ({ showDialog, setShowDialog }) {
           setShowDialog(false);
         }
         if (resp.status === 500) {
-          alert('Reset token invalid, try requesting a new reset link');
+          alert("Reset token invalid, try requesting a new reset link");
         }
       })
       .finally(() => {
         setSubmitting(false);
-        history.push('/');
+        history.push("/");
       });
   };
 
   return (
     <Modal
       showDialog={showDialog}
-      modalHeader={<ModalHeaderBasic setShowDialog={setShowDialog} title="Reset Password" />}
+      modalHeader={
+        <ModalHeaderBasic
+          setShowDialog={setShowDialog}
+          title="Reset Password"
+        />
+      }
     >
       <form css={modalWrapper} onSubmit={(ev) => handleSubmit(ev)}>
         <label htmlFor="password" css={inputText}>
@@ -101,7 +106,9 @@ const Reset = function ({ showDialog, setShowDialog }) {
           css={input}
         />
         <div css={buttonWrapper}>
-          <button type="submit">{submitting ? 'Processing...' : 'Reset Password'}</button>
+          <button type="submit">
+            {submitting ? "Processing..." : "Reset Password"}
+          </button>
         </div>
       </form>
     </Modal>

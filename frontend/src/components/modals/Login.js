@@ -1,14 +1,20 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/core';
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { postForm } from '../../lib/form';
-import Cookies from 'js-cookie';
+import { jsx } from "@emotion/core";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { postForm } from "../../lib/form";
+import Cookies from "js-cookie";
 
-import Modal from './Modal';
-import { ModalHeaderAuth } from './ModalHeader';
-import { modalWrapper, inputText, buttonWrapper, input, spinnerWrapper } from './styles';
-import { Loading } from './Loading';
+import Modal from "./Modal";
+import { ModalHeaderAuth } from "./ModalHeader";
+import {
+  modalWrapper,
+  inputText,
+  buttonWrapper,
+  input,
+  spinnerWrapper,
+} from "./styles";
+import { Loading } from "./Loading";
 
 const { REACT_APP_API_HOST } = process.env;
 
@@ -19,25 +25,25 @@ const LogIn = function ({
   hasAccount,
   setHasAccount,
 }) {
-  let [email, setEmail] = useState('');
-  let [password, setPassword] = useState('');
+  let [email, setEmail] = useState("");
+  let [password, setPassword] = useState("");
   let [submitting, setSubmitting] = useState(false);
-  let submittable = email !== '';
+  let submittable = email !== "";
 
   let handleSubmit = function (ev) {
     ev.preventDefault();
     setSubmitting(true);
-    postForm(`${REACT_APP_API_HOST}/user/login`, {
+    postForm(`${REACT_APP_API_HOST}/api/user/login`, {
       body: JSON.stringify({ email, password }),
     })
       .then(({ resp, json }) => {
         if (resp.status === 200) {
-          Cookies.set('user', json);
+          Cookies.set("user", json);
           setShowDialog(false);
         } else if (resp.status === 401) {
           window.alert(json);
         } else {
-          window.alert('Whoops, there was an error. Please try again.');
+          window.alert("Whoops, there was an error. Please try again.");
         }
       })
       .finally(() => {
