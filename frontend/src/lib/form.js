@@ -2,12 +2,12 @@ export const VALIDATION_FAILURE_HTTP_CODE = 422;
 export const HTTP_SUCCESS = 200;
 export let fetchJson = (url, opts = {}) => {
   let defaultOpts = {
-    method: "GET",
-    credentials: "same-origin",
+    method: 'GET',
+    credentials: 'same-origin',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      "Set-Cookie": `${opts.token}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Set-Cookie': `${opts.token}`,
     },
   };
 
@@ -16,23 +16,23 @@ export let fetchJson = (url, opts = {}) => {
   // campus search results) https://stackoverflow.com/a/16152893/1599045
   let path = url;
   // Only apply to URLs that are not signed.
-  if (url.indexOf("signature=") === -1) {
-    let sep = url.indexOf("?") === -1 ? "?" : "&";
+  if (url.indexOf('signature=') === -1) {
+    let sep = url.indexOf('?') === -1 ? '?' : '&';
     path = `${url}${sep}__is_json=1`;
   }
 
   return fetch(path, { ...defaultOpts, ...opts })
-    .then((resp) =>
+    .then(resp =>
       resp
         .json()
-        .then((json) => ({ resp, json }))
+        .then(json => ({ resp, json }))
         .catch(() => ({ resp, json: null }))
     )
     .catch(() => ({ resp: null, json: null }));
 };
 
 export let postForm = (url, opts = {}) =>
-  fetchJson(url, { method: "POST", ...opts });
+  fetchJson(url, { method: 'POST', ...opts });
 
 export let putForm = (url, opts = {}) =>
-  fetchJson(url, { method: "PUT", ...opts });
+  fetchJson(url, { method: 'PUT', ...opts });

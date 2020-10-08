@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import Slider from "react-slick";
-import { css, jsx } from "@emotion/core";
+import Slider from 'react-slick';
+import { css, jsx } from '@emotion/core';
 
 const Newslist = ({ newslist }) => {
   // const settings = {
