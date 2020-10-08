@@ -1,4 +1,4 @@
-name: Lint
+name: Lint and format CI
 
 on: push
 
@@ -25,6 +25,21 @@ jobs:
         working-directory: ./frontend
         run: |
           yarn run lint
+
+  run-frontend-formatting:
+    name: Run frontend formatting
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Prettify code
+        uses: creyD/prettier_action@v2.2
+        with:
+          dry: true
+          prettier_options: --write src/**/*.{js,css}
+          commit_message: 'Prettified code'
   
   run-backend-linters:
     name: Run backend linters
