@@ -1,6 +1,6 @@
 import winston from "winston";
 
-const logger = new winston.Logger({
+const logger = new winston.createLogger({
   transports: [
     new winston.transports.Console({
       colorize: true,
@@ -10,4 +10,4 @@ const logger = new winston.Logger({
   ],
 });
 
-module.exports = logger;
+export default logger;
