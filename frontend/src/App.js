@@ -24,7 +24,6 @@ const sidebar = css`
 `;
 
 function App() {
-  console.log('this is a test');
   const [priceData, setpriceData] = useState({});
   const [newslist, setNewslist] = useState([]);
   const [primaryTicker, setPrimaryTicker] = useState('AAPL');

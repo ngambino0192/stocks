@@ -9365,7 +9365,14 @@ prepend-http@^1.0.0:
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-1.0.4.tgz#d4f4562b0ce3696e41ac52d0e002e57a635dc6dc"
   integrity sha1-1PRWKwzjaW5BrFLQ4ALlemNdxtw=
 
-prettier@^2.1.2:
+prettier-plugin-tailwind-css@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-tailwind-css/-/prettier-plugin-tailwind-css-1.4.0.tgz#c3a5561a9484d5c39f7d98962b7b03389055409d"
+  integrity sha512-VnS+V7gAJ7LeO3nVEiFLk8359EsYF7jIZMU43PNiw4IQjKUHFd7tazfCG3hKF5/bw5D5c28b8SzuIN2Rczy7uA==
+  dependencies:
+    prettier "^2.0.5"
+
+prettier@^2.0.5, prettier@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.1.2.tgz#3050700dae2e4c8b67c4c3f666cdb8af405e1ce5"
   integrity sha512-16c7K+x4qVlJg9rEbXl7HEGmQyZlG4R9AgP+oHKRMsMsuk8s+ATStlf1NpDqyBI1HpVyfjLOeMhH2LvuNvV5Vg==
