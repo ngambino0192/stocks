@@ -1,13 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600?family=Space+Mono:wght@400;700&display=swap');
+
 body {
-  background: #0a0e11;
+  background: #0A0E11;
   color: #e5e5e5;
+  font-family: 'Rubik', sans-serif;
 }
 
 .slick-list {
   max-height: 400px;
 }
 
-.slick-slide > div {
+.slick-slide>div {
   margin: 10px;
   background-color: #070b0e;
+}
+
+.mercury {
+  position: relative;
+  font-size: 1.75rem;
+  font-family: 'Space Mono';
+}
+
+.mercury::before,
+.mercury::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mercury::before {
+  left: 2px;
+  clip: rect(79px, 1200px, 86px, 0);
+  text-shadow: -1px 0 red;
+  background: #000;
+  animation: mercury-anim-2 1s 3 linear alternate-reverse;
+}
+
+.mercury::after {
+  /* variation */
+  left: -2px;
+  clip: rect(79px, 1200px, 86px, 0);
+  text-shadow: -1px 0 blue;
+  background: #000;
+  animation: mercury-anim-1 1s 3 linear alternate-reverse;
+  animation-delay: -3s;
+}
+
+.mercury:hover::before,
+.mercury:hover::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mercury:hover::before {
+  left: 2px;
+  clip: rect(79px, 1200px, 86px, 0);
+  text-shadow: -1px 0 red;
+  background: #000;
+  animation: mercury-anim-2 1s infinite linear alternate-reverse;
+}
+
+.mercury:hover::after {
+  /* variation */
+  left: -2px;
+  clip: rect(79px, 1200px, 86px, 0);
+  text-shadow: -1px 0 blue;
+  background: #000;
+  animation: mercury-anim-1 1s infinite linear alternate-reverse;
+  animation-delay: -1s;
+}
+
+@keyframes mercury-anim-1 {
+  0% {
+    clip: rect(20px, 1200px, 76px, 0);
+  }
+
+  20% {
+    clip: rect(19px, 1200px, 16px, 0);
+  }
+
+  40% {
+    clip: rect(16px, 1200px, 3px, 0);
+  }
+
+  60% {
+    clip: rect(62px, 1200px, 78px, 0);
+  }
+
+  80% {
+    clip: rect(25px, 1200px, 13px, 0);
+  }
+
+  100% {
+    clip: rect(53px, 1200px, 86px, 0);
+  }
+}
+
+@keyframes mercury-anim-2 {
+  0% {
+    clip: rect(79px, 1200px, 86px, 0);
+  }
+
+  20% {
+    clip: rect(20px, 1200px, 30px, 0);
+  }
+
+  40% {
+    clip: rect(25px, 1200px, 5px, 0);
+  }
+
+  60% {
+    clip: rect(65px, 1200px, 85px, 0);
+  }
+
+  80% {
+    clip: rect(120px, 1200px, 145px, 0);
+  }
+
+  100% {
+    clip: rect(95px, 1200px, 75px, 0);
+  }
+}
+
+.username {
+  font-family: 'Space Mono';
 }
