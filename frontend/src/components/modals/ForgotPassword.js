@@ -1,55 +1,14 @@
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core";
+import { jsx } from "@emotion/core";
+import { motion } from "framer-motion";
 import { useState } from "react";
 import { postForm } from "../../lib/form";
 
 import Modal from "./Modal";
 import { ModalHeaderBasic } from "./ModalHeader";
+import { inputText, modalWrapper, input, buttonWrapper } from "./styles";
 
 const { REACT_APP_API_HOST } = process.env;
-
-const inputText = css`
-  font-size: 16px;
-  font-weight: 500px;
-  letter-spacing: 0;
-  line-height: 20px;
-  color: black;
-`;
-
-const modalWrapper = css`
-  display: flex;
-  flex-direction: column;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: 20px;
-`;
-
-const input = css`
-  -webkit-appearance: none;
-  border: 1px solid black;
-  background-color: white;
-  border-radius: 3px;
-  line-height: 20px;
-  padding: 12px 24px;
-  font-weight: bold;
-  font-size: 16px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  outline: none;
-  color: black;
-  &:focus {
-    border: 2px solid red;
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
-  }
-`;
-
-const buttonWrapper = css`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 30px;
-  color: black;
-`;
 
 const Reset = function ({ showDialog, setShowDialog }) {
   let [email, setEmail] = useState("");
@@ -90,7 +49,9 @@ const Reset = function ({ showDialog, setShowDialog }) {
       }
     >
       <form css={modalWrapper} onSubmit={(ev) => handleSubmit(ev)}>
-        <div>Don't worry, it happens to the best of us.</div>
+        <h3 className="forgot-subtitle">
+          Don't worry, it happens to the best of us.
+        </h3>
         <label htmlFor="email" css={inputText}>
           Your Email
         </label>
@@ -106,9 +67,13 @@ const Reset = function ({ showDialog, setShowDialog }) {
           css={input}
         />
         <div css={buttonWrapper}>
-          <button type="submit">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            type="submit"
+          >
             {submitting ? "Sending..." : "Email me a recovery link"}
-          </button>
+          </motion.button>
         </div>
       </form>
     </Modal>

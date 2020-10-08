@@ -1,27 +1,12 @@
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core";
-import { useState } from "react";
-import Cookies from "js-cookie";
+import { jsx } from '@emotion/core';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
+import Cookies from 'js-cookie';
 
-import Modal from "./Modal";
-import { ModalHeaderBasic } from "./ModalHeader";
-
-const modalWrapper = css`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  color: black;
-`;
-
-const buttonWrapper = css`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 50%;
-  padding: 20px;
-  color: black;
-`;
+import Modal from './Modal';
+import { ModalHeaderBasic } from './ModalHeader';
+import { modalWrapper, buttonWrapper } from './styles';
 
 const SignOut = function ({ showDialog, setShowDialog }) {
   let [submitting, setSubmitting] = useState(false);
@@ -29,7 +14,7 @@ const SignOut = function ({ showDialog, setShowDialog }) {
   let handleSubmit = function (ev, setShowDialog) {
     ev.preventDefault();
     setSubmitting(true);
-    Cookies.remove("user");
+    Cookies.remove('user');
     setTimeout(() => {
       setSubmitting(false);
       setShowDialog(false);
@@ -39,19 +24,19 @@ const SignOut = function ({ showDialog, setShowDialog }) {
   return (
     <Modal
       showDialog={showDialog}
-      modalHeader={
-        <ModalHeaderBasic setShowDialog={setShowDialog} title="Sign Out" />
-      }
+      modalHeader={<ModalHeaderBasic setShowDialog={setShowDialog} title="Sign Out" />}
     >
-      <form
-        css={modalWrapper}
-        onSubmit={(ev) => handleSubmit(ev, setShowDialog)}
-      >
+      <form css={modalWrapper} onSubmit={(ev) => handleSubmit(ev, setShowDialog)}>
         <div>Are you sure you want to sign out?</div>
         <div css={buttonWrapper}>
-          <button disabled={submitting} type="submit">
-            {submitting ? "Signing Out…" : "Sign Out"}
-          </button>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            disabled={submitting}
+            type="submit"
+          >
+            {submitting ? 'Signing Out…' : 'Sign Out'}
+          </motion.button>
         </div>
       </form>
     </Modal>

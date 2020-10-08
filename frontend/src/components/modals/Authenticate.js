@@ -1,13 +1,9 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import Login from "./Login";
-import SignIn from "./SignIn";
+import Login from './Login';
+import Register from './Register';
 
-const Authenticate = function ({
-  showDialog,
-  setShowDialog,
-  setShowForgotPassword,
-}) {
+const Authenticate = function ({ showDialog, setShowDialog, setShowForgotPassword }) {
   const [hasAccount, setHasAccount] = useState(true);
 
   if (hasAccount) {
@@ -22,7 +18,7 @@ const Authenticate = function ({
     );
   } else {
     return (
-      <SignIn
+      <Register
         showDialog={showDialog}
         setShowDialog={setShowDialog}
         hasAccount={hasAccount}
