@@ -3,6 +3,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+const logger = require("../services/winston");
 const {
   SALT_ROUNDS,
   HASH_ALGO,
@@ -45,6 +46,7 @@ router.post("/create", async (req, res) => {
         .json({ message: `An error occurred during registration: ${err}` });
     }
   } catch (err) {
+    logger.log(`Error: ${err}`);
     res.status(500).json({ message: `Server Error: ${err}` });
   }
 });
@@ -78,6 +80,7 @@ router.post("/login", async (req, res) => {
       }
     }
   } catch (err) {
+    logger.log(`Error: ${err}`);
     res.status(500).json({ message: `Server Error: ${err}` });
   }
 });
@@ -137,6 +140,7 @@ router.post("/forgot-password", async (req, res) => {
       });
     }
   } catch (err) {
+    logger.log(`Error: ${err}`);
     res.status(500).json({ message: `Server Error: ${err}` });
   }
 });
@@ -174,6 +178,7 @@ router.post("/reset-password", async (req, res) => {
         .json({ message: "No user found associated to email address." });
     }
   } catch (err) {
+    logger.log(`Error: ${err}`);
     res.status(500).json({ message: `Server Error: ${err}` });
   }
 });

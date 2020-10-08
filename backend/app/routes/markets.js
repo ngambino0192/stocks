@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const axios = require("axios");
 const iex = require("iexcloud_api_wrapper");
+const logger = require("../services/winston");
 const { FINNHUB_TOKEN } = process.env;
 
 const router = express.Router();
@@ -14,6 +15,7 @@ router.get("/symbols", async (req, res) => {
     let { data } = response;
     res.status(200).json(data);
   } catch (err) {
+    logger.log(`Error: ${err}`);
     res.status(500).json({ message: `Server Error: ${err}` });
   }
 });
@@ -32,6 +34,7 @@ router.get("/watchlist/:symbols", async (req, res) => {
     });
     res.status(200).json(watchlist);
   } catch (err) {
+    logger.log(`Error: ${err}`);
     res.status(500).json({ message: `Server Error: ${err}` });
   }
 });
@@ -45,6 +48,7 @@ router.get("/target/:symbol", async (req, res) => {
     let { data } = response;
     res.status(200).json(data);
   } catch (err) {
+    logger.log(`Error: ${err}`);
     res.status(500).json({ message: `Server Error: ${err}` });
   }
 });
@@ -73,6 +77,7 @@ router.get("/quote/:symbol", async (req, res) => {
     let { data } = response;
     res.status(200).json(data);
   } catch (err) {
+    logger.log(`Error: ${err}`);
     res.status(500).json({ message: `Server Error: ${err}` });
   }
 });
@@ -122,6 +127,7 @@ router.get("/promo", async (req, res) => {
 
     res.status(200).json(response);
   } catch (err) {
+    logger.log(`Error: ${err}`);
     res.status(500).json({ message: `Server Error: ${err}` });
   }
 });
@@ -133,6 +139,7 @@ router.get("/history/:symbol/:period", async (req, res) => {
 
     res.status(200).json(hData);
   } catch (err) {
+    logger.log(`Error: ${err}`);
     res.status(500).json({ message: `Server Error: ${err}` });
   }
 });

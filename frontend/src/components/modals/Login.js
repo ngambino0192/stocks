@@ -7,13 +7,7 @@ import Cookies from "js-cookie";
 
 import Modal from "./Modal";
 import { ModalHeaderAuth } from "./ModalHeader";
-import {
-  modalWrapper,
-  inputText,
-  buttonWrapper,
-  input,
-  spinnerWrapper,
-} from "./styles";
+import { modalWrapper, inputText, buttonWrapper, input } from "./styles";
 import { Loading } from "./Loading";
 
 const { REACT_APP_API_HOST } = process.env;

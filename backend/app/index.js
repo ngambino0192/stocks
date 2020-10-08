@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const logger = require("./services/winston");
 const { BACKEND_PORT } = process.env;
 
 const app = express();
@@ -13,5 +14,5 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/api", api);
 
 app.listen(BACKEND_PORT, () =>
-  console.log(`express listening on port ${BACKEND_PORT}`)
+  logger.log(`express listening on port ${BACKEND_PORT}`)
 );

@@ -65,8 +65,7 @@ const Reset = function ({ showDialog, setShowDialog }) {
     postForm(`${REACT_APP_API_HOST}/api/user/reset-password`, {
       body: JSON.stringify({ queryString, password }),
     })
-      .then(({ resp, json }) => {
-        console.log(resp);
+      .then(({ resp }) => {
         if (resp.status === 201) {
           setShowDialog(false);
         }

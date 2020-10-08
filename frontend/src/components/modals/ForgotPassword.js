@@ -50,7 +50,7 @@ const Reset = function ({ showDialog, setShowDialog }) {
     >
       <form css={modalWrapper} onSubmit={(ev) => handleSubmit(ev)}>
         <h3 className="forgot-subtitle">
-          Don't worry, it happens to the best of us.
+          No worries, it happens to the best of us.
         </h3>
         <label htmlFor="email" css={inputText}>
           Your Email
