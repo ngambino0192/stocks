@@ -1,20 +1,20 @@
 /** @jsx jsx */
-import { useState, useEffect } from "react";
-import { css, jsx } from "@emotion/core";
-import Cookies from "js-cookie";
-import { BrowserRouter as Router } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { css, jsx } from '@emotion/core';
+import Cookies from 'js-cookie';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-import PrimaryTicker from "./components/PrimaryTicker";
-import Chart from "./components/Chart";
-import SearchField from "./components/SearchField";
-import Watchlist from "./components/Watchlist";
-import Newslist from "./components/Newslist";
-import SignOut from "./components/modals/SignOut";
-import ForgotPassword from "./components/modals/ForgotPassword";
-import Reset from "./components/modals/Reset";
-import Authenticate from "./components/modals/Authenticate";
-import { theme } from "./theme";
-import TopBar from "./components/TopBar";
+import PrimaryTicker from './components/PrimaryTicker';
+import Chart from './components/Chart';
+import SearchField from './components/SearchField';
+import Watchlist from './components/Watchlist';
+import Newslist from './components/Newslist';
+import SignOut from './components/modals/SignOut';
+import ForgotPassword from './components/modals/ForgotPassword';
+import Reset from './components/modals/Reset';
+import Authenticate from './components/modals/Authenticate';
+import { theme } from './theme';
+import TopBar from './components/TopBar';
 
 const { colors } = theme;
 const { REACT_APP_API_HOST } = process.env;
@@ -24,9 +24,10 @@ const sidebar = css`
 `;
 
 function App() {
+  console.log('this is a test');
   const [priceData, setpriceData] = useState({});
   const [newslist, setNewslist] = useState([]);
-  const [primaryTicker, setPrimaryTicker] = useState("AAPL");
+  const [primaryTicker, setPrimaryTicker] = useState('AAPL');
   const [watchlist, setWatchlist] = useState([]);
   const [showSignOut, setShowSignOut] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
@@ -34,7 +35,7 @@ function App() {
   const [showAuth, setShowAuth] = useState(false);
   const [queryString] = useState(window.location.search);
 
-  const user = Cookies.get("user");
+  const user = Cookies.get('user');
 
   useEffect(() => {
     const HTTP_OK = 200;
@@ -118,43 +119,43 @@ function App() {
 
 const data = [
   {
-    name: "Page A",
+    name: 'Page A',
     uv: 4000,
     pv: 2400,
     amt: 2400,
   },
   {
-    name: "Page B",
+    name: 'Page B',
     uv: 3000,
     pv: 1398,
     amt: 2210,
   },
   {
-    name: "Page C",
+    name: 'Page C',
     uv: 2000,
     pv: 9800,
     amt: 2290,
   },
   {
-    name: "Page D",
+    name: 'Page D',
     uv: 2780,
     pv: 3908,
     amt: 2000,
   },
   {
-    name: "Page E",
+    name: 'Page E',
     uv: 1890,
     pv: 4800,
     amt: 2181,
   },
   {
-    name: "Page F",
+    name: 'Page F',
     uv: 2390,
     pv: 3800,
     amt: 2500,
   },
   {
-    name: "Page G",
+    name: 'Page G',
     uv: 3490,
     pv: 4300,
     amt: 2100,
