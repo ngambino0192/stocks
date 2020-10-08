@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600?family=Space+Mono:wght@400;700&display=swap');
 
 body {
-  background: #0A0E11;
+  background: #0a0e11;
   color: #e5e5e5;
   font-family: 'Rubik', sans-serif;
 }
@@ -10,7 +10,7 @@ body {
   max-height: 400px;
 }
 
-.slick-slide>div {
+.slick-slide > div {
   margin: 10px;
   background-color: #070b0e;
 }

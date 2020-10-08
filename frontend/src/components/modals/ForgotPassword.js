@@ -1,17 +1,17 @@
 /** @jsx jsx */
-import { jsx } from "@emotion/core";
-import { motion } from "framer-motion";
-import { useState } from "react";
-import { postForm } from "../../lib/form";
+import { jsx } from '@emotion/core';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { postForm } from '../../lib/form';
 
-import Modal from "./Modal";
-import { ModalHeaderBasic } from "./ModalHeader";
-import { inputText, modalWrapper, input, buttonWrapper } from "./styles";
+import Modal from './Modal';
+import { ModalHeaderBasic } from './ModalHeader';
+import { inputText, modalWrapper, input, buttonWrapper } from './styles';
 
 const { REACT_APP_API_HOST } = process.env;
 
 const Reset = function ({ showDialog, setShowDialog }) {
-  let [email, setEmail] = useState("");
+  let [email, setEmail] = useState('');
   let [submitting, setSubmitting] = useState(false);
 
   let handleSubmit = function (ev) {
@@ -23,14 +23,14 @@ const Reset = function ({ showDialog, setShowDialog }) {
       .then(({ resp }) => {
         if (resp.status === 200) {
           window.alert(
-            "We have sent you your reset instructions to your email address. Please also check your spam folder"
+            'We have sent you your reset instructions to your email address. Please also check your spam folder'
           );
         } else if (resp.status === 404) {
           window.alert(
-            "We do not have an account associated with this email address. Create account instead!"
+            'We do not have an account associated with this email address. Create account instead!'
           );
         } else {
-          window.alert("Whoops, there was an error. Please try again.");
+          window.alert('Whoops, there was an error. Please try again.');
         }
       })
       .finally(() => {
@@ -48,7 +48,7 @@ const Reset = function ({ showDialog, setShowDialog }) {
         />
       }
     >
-      <form css={modalWrapper} onSubmit={(ev) => handleSubmit(ev)}>
+      <form css={modalWrapper} onSubmit={ev => handleSubmit(ev)}>
         <h3 className="forgot-subtitle">
           No worries, it happens to the best of us.
         </h3>
@@ -62,7 +62,7 @@ const Reset = function ({ showDialog, setShowDialog }) {
           required
           value={email}
           placeholder="Email"
-          onChange={(ev) => setEmail(ev.target.value)}
+          onChange={ev => setEmail(ev.target.value)}
           aria-label="Email"
           css={input}
         />
@@ -72,7 +72,7 @@ const Reset = function ({ showDialog, setShowDialog }) {
             whileTap={{ scale: 0.9 }}
             type="submit"
           >
-            {submitting ? "Sending..." : "Email me a recovery link"}
+            {submitting ? 'Sending...' : 'Email me a recovery link'}
           </motion.button>
         </div>
       </form>
