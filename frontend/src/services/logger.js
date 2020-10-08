@@ -1,6 +1,6 @@
-import winston from "winston";
+import winston from 'winston';
 
-const logger = new winston.createLogger({
+const logger = winston.createLogger({
   transports: [
     new winston.transports.Console({
       colorize: true,
