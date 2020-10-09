@@ -132,6 +132,11 @@ router.get('/promo', async (req, res) => {
   }
 });
 
+/**
+ * @param :symbol String stocker ticker of company (eg: AAPL)
+ * @param :period String can be one of the following: "1d", "1m", "3m", "6m"
+ * "ytd", "1y", "2y", "5y", "dynamic", "max", "date"
+ */
 router.get('/history/:symbol/:period', async (req, res) => {
   try {
     const { symbol, period } = req.params;
