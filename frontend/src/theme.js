@@ -5,5 +5,8 @@ export const theme = {
     gray300: '#232A2E',
     lightGray100: '#475264',
     lightGray200: '#BEBDBE',
+    orange: '#EC630E',
+    blue: '#1594D9',
+    green: '#4EFF7F',
   },
 };
