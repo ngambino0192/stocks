@@ -1,7 +1,7 @@
-const { Sequelize } = require("sequelize");
-const database = new Sequelize("postgres", "postgres", "postgres", {
-  host: "db",
-  dialect: "postgres",
+const { Sequelize } = require('sequelize');
+const database = new Sequelize('postgres', 'postgres', 'postgres', {
+  host: 'db',
+  dialect: 'postgres',
   pool: {
     max: 5,
     min: 0,
