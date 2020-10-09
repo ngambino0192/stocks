@@ -1,9 +1,9 @@
-require("dotenv").config();
-const express = require("express");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const nodemailer = require("nodemailer");
-const logger = require("../services/winston");
+require('dotenv').config();
+const express = require('express');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const logger = require('../services/winston');
 const {
   SALT_ROUNDS,
   HASH_ALGO,
@@ -15,12 +15,12 @@ const {
 
 const router = express.Router();
 
-const database = require("../services/postgres");
-const User = require("../services/postgres/User");
+const database = require('../services/postgres');
+const User = require('../services/postgres/User');
 
 const jwtExpirySeconds = 300;
 
-router.post("/create", async (req, res) => {
+router.post('/create', async (req, res) => {
   try {
     await database.sync();
     const { username, email, password } = req.body;
@@ -29,7 +29,7 @@ router.post("/create", async (req, res) => {
       const existingUser = await User.findOne({ where: { email } });
       if (existingUser) {
         res.status(400).json({
-          message: "A user was already created with that email address",
+          message: 'A user was already created with that email address',
         });
       } else {
         const user = await User.create({
@@ -51,7 +51,7 @@ router.post("/create", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({
@@ -66,17 +66,17 @@ router.post("/login", async (req, res) => {
         algorithm: HASH_ALGO,
         expiresIn: jwtExpirySeconds,
       });
-      res.cookie("token", token, {
+      res.cookie('token', token, {
         maxAge: jwtExpirySeconds * 1000,
         httpOnly: false,
       });
       res.status(200).json({ token, user: { id, username, email } });
     } else {
       if (!user) {
-        res.status(404).json({ message: "Invalid user" });
+        res.status(404).json({ message: 'Invalid user' });
       }
       if (!password) {
-        res.status(401).json({ message: "Invalid Password" });
+        res.status(401).json({ message: 'Invalid Password' });
       }
     }
   } catch (err) {
@@ -85,7 +85,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/forgot-password", async (req, res) => {
+router.post('/forgot-password', async (req, res) => {
   try {
     const { email } = req.body;
     const user = await User.findOne({
@@ -109,7 +109,7 @@ router.post("/forgot-password", async (req, res) => {
       const mailOptions = {
         from: SMTP_FROM,
         to: email,
-        subject: "Your Password Reset Link",
+        subject: 'Your Password Reset Link',
         html: `<!DOCTYPE html>
             <html>
               <head>
@@ -128,15 +128,15 @@ router.post("/forgot-password", async (req, res) => {
       };
       transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
-          res.status(500).json({ message: "Error sending email" });
+          res.status(500).json({ message: 'Error sending email' });
         } else {
-          res.status(200).json({ message: "Email sent: " + info.response });
+          res.status(200).json({ message: 'Email sent: ' + info.response });
         }
       });
     } else {
       res.status(404).json({
         message:
-          "no user associated to that email address. Create account instead!",
+          'no user associated to that email address. Create account instead!',
       });
     }
   } catch (err) {
@@ -145,10 +145,10 @@ router.post("/forgot-password", async (req, res) => {
   }
 });
 
-router.post("/reset-password", async (req, res) => {
+router.post('/reset-password', async (req, res) => {
   try {
     const { queryString, password } = req.body;
-    let str = queryString[0].split("?")[1].split("&");
+    let str = queryString[0].split('?')[1].split('&');
     let token = str[0];
     let email = str[1];
     const user = await User.findOne({
@@ -168,14 +168,14 @@ router.post("/reset-password", async (req, res) => {
             },
           }
         );
-        res.status(201).json({ message: "Password Updated" });
+        res.status(201).json({ message: 'Password Updated' });
       } else {
-        res.status(500).json({ message: "Unable to update password" });
+        res.status(500).json({ message: 'Unable to update password' });
       }
     } else {
       res
         .status(404)
-        .json({ message: "No user found associated to email address." });
+        .json({ message: 'No user found associated to email address.' });
     }
   } catch (err) {
     logger.log(`Error: ${err}`);
