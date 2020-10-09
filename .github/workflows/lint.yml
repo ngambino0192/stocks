@@ -74,5 +74,5 @@ jobs:
       - name: Prettify code
         uses: creyD/prettier_action@v2.2
         with:
-          prettier_options: --write backend/**.js
+          prettier_options: --write backend/**/*.js
           commit_message: 'Prettified backend code'
