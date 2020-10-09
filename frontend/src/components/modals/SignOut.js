@@ -24,9 +24,11 @@ const SignOut = function ({ showDialog, setShowDialog }) {
   return (
     <Modal
       showDialog={showDialog}
-      modalHeader={<ModalHeaderBasic setShowDialog={setShowDialog} title="Sign Out" />}
+      modalHeader={
+        <ModalHeaderBasic setShowDialog={setShowDialog} title="Sign Out" />
+      }
     >
-      <form css={modalWrapper} onSubmit={(ev) => handleSubmit(ev, setShowDialog)}>
+      <form css={modalWrapper} onSubmit={ev => handleSubmit(ev, setShowDialog)}>
         <div>Are you sure you want to sign out?</div>
         <div css={buttonWrapper}>
           <motion.button

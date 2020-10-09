@@ -1,13 +1,13 @@
-require("dotenv").config();
-const express = require("express");
-const axios = require("axios");
-const iex = require("iexcloud_api_wrapper");
-const logger = require("../services/winston");
+require('dotenv').config();
+const express = require('express');
+const axios = require('axios');
+const iex = require('iexcloud_api_wrapper');
+const logger = require('../services/winston');
 const { FINNHUB_TOKEN } = process.env;
 
 const router = express.Router();
 
-router.get("/symbols", async (req, res) => {
+router.get('/symbols', async (req, res) => {
   try {
     const response = await axios.get(
       `https://finnhub.io/api/v1/stock/symbol?exchange=US&token=${FINNHUB_TOKEN}`
@@ -21,10 +21,10 @@ router.get("/symbols", async (req, res) => {
 });
 
 // get info on company
-router.get("/watchlist/:symbols", async (req, res) => {
+router.get('/watchlist/:symbols', async (req, res) => {
   try {
     const { symbols } = req.params;
-    let array = symbols.split(",");
+    let array = symbols.split(',');
     const response = await axios.get(
       `https://finnhub.io/api/v1/stock/symbol?exchange=US&token=${FINNHUB_TOKEN}`
     );
@@ -39,7 +39,7 @@ router.get("/watchlist/:symbols", async (req, res) => {
   }
 });
 
-router.get("/target/:symbol", async (req, res) => {
+router.get('/target/:symbol', async (req, res) => {
   try {
     const { symbol } = req.params;
     const response = await axios.get(
@@ -54,7 +54,7 @@ router.get("/target/:symbol", async (req, res) => {
 });
 
 // get company news
-router.get("/news/:symbol", async (req, res) => {
+router.get('/news/:symbol', async (req, res) => {
   try {
     const { symbol } = req.params;
     const response = await axios.get(
@@ -68,7 +68,7 @@ router.get("/news/:symbol", async (req, res) => {
 });
 
 // get current price
-router.get("/quote/:symbol", async (req, res) => {
+router.get('/quote/:symbol', async (req, res) => {
   try {
     const { symbol } = req.params;
     const response = await axios.get(
@@ -84,13 +84,13 @@ router.get("/quote/:symbol", async (req, res) => {
 
 // get info for banner
 // TODO: cache results (redis?) to prevent excessive api calls on production
-router.get("/promo", async (req, res) => {
+router.get('/promo', async (req, res) => {
   try {
-    const gainers = await iex.list("gainers");
-    const losers = await iex.list("losers");
-    const mostactive = await iex.list("mostactive");
-    const volume = await iex.list("iexvolume");
-    const percent = await iex.list("iexpercent");
+    const gainers = await iex.list('gainers');
+    const losers = await iex.list('losers');
+    const mostactive = await iex.list('mostactive');
+    const volume = await iex.list('iexvolume');
+    const percent = await iex.list('iexpercent');
 
     let collection = [
       ...gainers,
@@ -132,7 +132,12 @@ router.get("/promo", async (req, res) => {
   }
 });
 
-router.get("/history/:symbol/:period", async (req, res) => {
+/**
+ * @param :symbol String stocker ticker of company (eg: AAPL)
+ * @param :period String can be one of the following: "1d", "1m", "3m", "6m"
+ * "ytd", "1y", "2y", "5y", "dynamic", "max", "date"
+ */
+router.get('/history/:symbol/:period', async (req, res) => {
   try {
     const { symbol, period } = req.params;
     const hData = await iex.history(symbol, { period });
