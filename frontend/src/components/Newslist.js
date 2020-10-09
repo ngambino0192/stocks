@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import Slider from "react-slick";
-import { css, jsx } from "@emotion/core";
+import Slider from 'react-slick';
+import { css, jsx } from '@emotion/core';
 
 const Newslist = ({ newslist }) => {
   // const settings = {
@@ -32,10 +32,10 @@ const Newslist = ({ newslist }) => {
                 src={image}
               />
               <div className="px-6 py-4">
-                <div className="font-bold text-sm mb-2 lg:text-base">
+                <div className="lg:text-base mb-2 text-sm font-bold">
                   {headline}
                 </div>
-                <p className="text-gray-700 text-sm" css={summaryCSS}>
+                <p className="text-sm text-gray-700" css={summaryCSS}>
                   {summary}
                 </p>
               </div>
@@ -46,7 +46,6 @@ const Newslist = ({ newslist }) => {
     </div>
   );
 };
-
 const settings = {
   dots: true,
   infinite: true,
@@ -66,35 +65,24 @@ const settings = {
     },
     {
       breakpoint: 700,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 2,
-        initialSlide: 2,
-      },
+      settings: { slidesToShow: 2, slidesToScroll: 2, initialSlide: 2 },
     },
     {
       breakpoint: 480,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-      },
+      settings: { slidesToShow: 1, slidesToScroll: 1 },
     },
   ],
 };
-
 const img = css`
   height: 10em;
 `;
-
 const card = css`
   height: 20em;
   margin-bottom: 16px;
 `;
-
 const summaryCSS = css`
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 `;
-
 export default Newslist;

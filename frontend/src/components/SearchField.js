@@ -10,7 +10,7 @@ const SearchField = ({ setPrimaryTicker }) => {
   return (
     <form
       className="flex flex-nowrap lg:flex-no-wrap w-full justify-center"
-      onSubmit={(ev) => handleSubmit(ev)}
+      onSubmit={ev => handleSubmit(ev)}
     >
       <div className="mx-1 w-10/12">
         <label htmlFor="ticker-select">
@@ -21,7 +21,7 @@ const SearchField = ({ setPrimaryTicker }) => {
             type="text"
             placeholder="Search"
             value={formField}
-            onChange={(ev) => setForm(ev.target.value.toUpperCase())}
+            onChange={ev => setForm(ev.target.value.toUpperCase())}
           />
         </label>
       </div>

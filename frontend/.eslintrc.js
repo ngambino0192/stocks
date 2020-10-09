@@ -1,14 +1,15 @@
 module.exports = {
-  parser: "babel-eslint", // define babel as the parser
+  parser: 'babel-eslint', // define babel as the parser
   extends: [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:tailwind/recommended",
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:tailwind/recommended',
+    'prettier',
   ],
-  plugins: ["react", "emotion"],
+  plugins: ['react', 'emotion'],
   parserOptions: {
     ecmaVersion: 2020, // understands let, const and other features
-    sourceType: "module", // understands the use of import and export
+    sourceType: 'module', // understands the use of import and export
     ecmaFeatures: {
       jsx: true, // understands the use of tags inside js files
     },
@@ -19,8 +20,8 @@ module.exports = {
     node: true,
   },
   rules: {
-    "no-console": "warn",
-    "react/prop-types": "off",
-    "tailwind/class-order": "off",
+    'no-console': 'warn',
+    'react/prop-types': 'off',
+    'tailwind/class-order': 'off',
   },
 };

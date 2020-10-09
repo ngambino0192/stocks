@@ -10,7 +10,11 @@ import {
   titleItem,
 } from './styles';
 
-export const ModalHeaderAuth = function ({ setShowDialog, hasAccount, setHasAccount }) {
+export const ModalHeaderAuth = function ({
+  setShowDialog,
+  hasAccount,
+  setHasAccount,
+}) {
   return (
     <div css={modalHeader}>
       <div css={toggleWrapper}>
