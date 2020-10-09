@@ -26,21 +26,25 @@ const sidebar = css`
 function App() {
   const [priceData, setpriceData] = useState({});
   const [newslist, setNewslist] = useState([]);
-  const [primaryTicker, setPrimaryTicker] = useState('AAPL');
+  const [primaryTicker, setPrimaryTicker] = useState({
+    symbol: 'AAPL',
+    period: '1m',
+  });
   const [watchlist, setWatchlist] = useState([]);
   const [showSignOut, setShowSignOut] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [showReset, setShowReset] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
   const [queryString] = useState(window.location.search);
+  const [historicalData, setHistoricalData] = useState([]);
 
   const user = Cookies.get('user');
+  const HTTP_OK = 200;
 
   useEffect(() => {
-    const HTTP_OK = 200;
     const fetchData = async () => {
       let response = await fetch(
-        `${REACT_APP_API_HOST}/api/markets/quote/${primaryTicker}`
+        `${REACT_APP_API_HOST}/api/markets/quote/${primaryTicker.symbol}`
       );
       if (response.status === HTTP_OK) {
         let json = await response.json();
@@ -50,13 +54,12 @@ function App() {
       }
     };
     fetchData();
-  }, [primaryTicker]);
+  }, [primaryTicker.symbol]);
 
   useEffect(() => {
-    const HTTP_OK = 200;
     const fetchNewslist = async () => {
       let response = await fetch(
-        `${REACT_APP_API_HOST}/api/markets/news/${primaryTicker}`
+        `${REACT_APP_API_HOST}/api/markets/news/${primaryTicker.symbol}`
       );
       if (response.status === HTTP_OK) {
         let json = await response.json();
@@ -66,13 +69,36 @@ function App() {
       }
     };
     fetchNewslist();
-  }, [primaryTicker]);
+  }, [primaryTicker.symbol]);
 
   useEffect(() => {
     if (queryString) {
       setShowReset(true);
     }
   }, [queryString]);
+
+  useEffect(() => {
+    if (
+      historicalData.length < 1 ||
+      historicalData[0].symbol !== primaryTicker.symbol
+    ) {
+      const fetchHistoricalData = async () => {
+        const { symbol, period } = primaryTicker;
+        let response = await fetch(
+          `${REACT_APP_API_HOST}/api/markets/history/${symbol}/${
+            period ?? '1m'
+          }`
+        );
+        if (response.status === HTTP_OK) {
+          let json = await response.json();
+          setHistoricalData(json);
+        } else {
+          alert(`error: ${response.status}`);
+        }
+      };
+      fetchHistoricalData();
+    }
+  }, [historicalData, primaryTicker]);
 
   return (
     <Router>
@@ -104,61 +130,18 @@ function App() {
         <div className="flex flex-col items-center w-full lg:w-9/12 xl:w-10/12 h-12 p-5">
           <PrimaryTicker
             priceData={priceData}
-            primaryTicker={primaryTicker}
+            primaryTicker={primaryTicker.symbol}
             watchlist={watchlist}
             setWatchlist={setWatchlist}
           />
-          <Chart data={data} />
+          {historicalData.length > 1 && (
+            <Chart historicalData={historicalData} />
+          )}
           <Newslist newslist={newslist} />
         </div>
       </div>
     </Router>
   );
 }
-
-const data = [
-  {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
 
 export default App;
